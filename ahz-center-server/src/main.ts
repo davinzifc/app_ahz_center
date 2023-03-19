@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { dataSource } from './config/orm.config';
@@ -9,7 +10,9 @@ async function bootstrap() {
     .then(() => {
       /** It is executed when the connection to the database is successful. */
       dataSource.query(`SHOW TABLES`).then((data) => {
-        console.log(data);
+        data.map(el => {
+          console.log( '✨ ',el['Tables_in_ahzdb'])
+        })
       });
       console.log(`The connection to the database is successful`);
     })

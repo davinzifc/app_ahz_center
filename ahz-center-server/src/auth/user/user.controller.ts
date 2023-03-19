@@ -1,34 +1,75 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ErrorHandler } from '../../shared/handlers/error.handler';
+import { ResponseHandler } from '../../shared/handlers/response.handler';
+import { Req, Res } from '@nestjs/common/decorators';
+import { Request, Response } from 'express';
+import { UserJWT } from '../../shared/decorators/user-token.decorator';
+import { UserToken } from '../../shared/globaldto/user-token.dto';
 
-@Controller('user')
+
+@Controller()
+@UseFilters(new ErrorHandler())
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    protected readonly _responseHandler: ResponseHandler 
+    ) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() createUserDto: CreateUserDto,
+    @UserJWT() user: UserToken
+    ) {
+    const resultData = await this.userService.create(createUserDto, user);
+    this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(
+    @Req() req: Request,
+    @Res() res: Response,
+    @UserJWT() user: UserToken
+  ) {
+    const resultData = await this.userService.findAll();
+    this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  async findOne(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+    @UserJWT() user: UserToken
+    ) {
+    const resultData = await this.userService.findOne(+id);
+    this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string, 
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @UserJWT() user: UserToken
+    ) {
+      const resultData = await this.userService.update(+id, updateUserDto, user);
+    this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+    @UserJWT() user: UserToken
+    ) {
+      const resultData = await this.userService.remove(+id, user);
+    this._responseHandler.sendResponse(res, req, resultData);
   }
 }

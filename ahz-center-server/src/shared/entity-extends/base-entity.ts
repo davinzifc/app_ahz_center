@@ -13,7 +13,7 @@ export class BaseEntity{
         nullable: true,
         name: 'created_by'
     })
-    created_by: number;
+    created_by!: number;
 
     @UpdateDateColumn({
         type: 'timestamp',
@@ -27,7 +27,7 @@ export class BaseEntity{
         nullable: true,
         name: 'updated_by'
     })
-    update_by: number;
+    update_by!: number;
 
     @Column({
         type: 'boolean',
