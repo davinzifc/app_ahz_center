@@ -12,7 +12,8 @@ export class Action {
     @Column({
         type: 'text',
         nullable: true,
-        name: 'action_name'
+        name: 'action_name',
+        default: () => 'NULL'
     })
     action_name: string;
 

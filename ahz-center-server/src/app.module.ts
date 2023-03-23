@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSource } from './config/orm.config';
 import { AuthModule } from './auth/auth.module';
-import { APP_FILTER, RouterModule } from '@nestjs/core';
+import { APP_FILTER, RouterModule, Reflector } from '@nestjs/core';
 import { MainRoutes } from './main.routes';
 import { ErrorHandler } from './shared/handlers/error.handler';
 import { JwtMiddleware } from './shared/middleware/jwr.middleware';
@@ -34,7 +34,8 @@ import { env } from 'process';
       },
     }),
     RouterModule.register(MainRoutes),
-    AuthModule
+    AuthModule,
+    Reflector
   ],
   controllers: [
     AppController
@@ -50,7 +51,7 @@ import { env } from 'process';
     },
   ],
 })
-export class AppModule implements NestModule  {
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JwtMiddleware).forRoutes(
       {

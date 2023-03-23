@@ -14,6 +14,7 @@ export const dataSource: DataSource = new DataSource({
     join(__dirname,'..','auth','**','*.entity.{js,ts}')
   ],
   synchronize: false,
+  charset: 'utf8mb4_general_ci',
   migrationsRun: false,
   logging: false,
   bigNumberStrings: false,

@@ -12,8 +12,8 @@ export class UserRole {
 
     @Column({
         type: 'text',
-        name: 'role_name',
-        nullable: true
+        nullable: true,
+        default: () => 'NULL'
     })
     role_name: string;
 

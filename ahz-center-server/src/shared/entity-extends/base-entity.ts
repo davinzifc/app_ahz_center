@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Exclude } from "class-transformer";
+import { Column, CreateDateColumn, JoinColumn, ManyToOne, UpdateDateColumn, } from "typeorm";
+import { User } from "../../auth/user/entities/user.entity";
 
-export class BaseEntity{
+export abstract class BaseEntity{
     @CreateDateColumn({
         type: 'timestamp',
         name: 'created_at',
@@ -10,7 +12,6 @@ export class BaseEntity{
 
     @Column({
         type: 'bigint',
-        nullable: true,
         name: 'created_by'
     })
     created_by!: number;
@@ -20,14 +21,15 @@ export class BaseEntity{
         name: 'updated_at',
         nullable: true
     })
-    updated_at: Date;
+    updated_at!: Date;
 
     @Column({
         type: 'bigint',
         nullable: true,
-        name: 'updated_by'
+        name: 'updated_by',
+        default: () => 'NULL'
     })
-    update_by!: number;
+    update_by: number;
 
     @Column({
         type: 'boolean',

@@ -11,6 +11,7 @@ import { AuthRoutes } from './auth.routes';
 import { ResponseHandler } from '../shared/handlers/response.handler';
 import { BcryptPasswordEncoder } from '../shared/utils/bcrypt.util';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { RestorePasswordTokenModule } from './restore-password-token/restore-password-token.module';
 
 @Module({
   controllers: [AuthController],
@@ -19,7 +20,8 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     UserRoleModule,
     ActionsModule,
     RoleByActionModule,
-    UserByRoleModule
+    UserByRoleModule,
+    RestorePasswordTokenModule
   ],
   providers: [
     AuthService,

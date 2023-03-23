@@ -17,7 +17,8 @@ import { MailerUtil } from '../../shared/utils/mailer.util';
     UserRoleRepository,
     BcryptPasswordEncoder,
     UserByRoleRepository,
-    MailerUtil
+    MailerUtil,
+    Number
   ],
   exports: [UserRepository]
 })

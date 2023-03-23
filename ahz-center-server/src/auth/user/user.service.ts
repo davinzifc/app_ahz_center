@@ -19,7 +19,7 @@ export class UserService {
     protected readonly _userRoleRepository: UserRoleRepository,
     protected readonly _bcryptPasswordEncoder: BcryptPasswordEncoder,
     protected readonly _userByRoleRepository: UserByRoleRepository,
-    protected readonly _mailerUtil: MailerUtil 
+    protected readonly _mailerUtil: MailerUtil
   ) { }
 
   async create(cu: CreateUserDto, user: UserToken) {
@@ -33,12 +33,14 @@ export class UserService {
       }
       const { email, first_name, last_name, password, user_type_id } = cu;
 
-      const existUser = await this._userRepository.findOne({where:{
-        email: email.trim(),
-        is_active: true
-      }});
+      const existUser = await this._userRepository.findOne({
+        where: {
+          email: email.trim(),
+          is_active: true
+        }
+      });
 
-      if(existUser){
+      if (existUser) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.CONFLICT,
           response: cu,
@@ -110,13 +112,15 @@ export class UserService {
   async findAll() {
     try {
       const users = await this._userRepository.find({
-        select:['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
+        select: ['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
         where: {
           is_active: true
         },
-        relations: {user_by_role: {
-          role:true
-        }}
+        relations: {
+          user_by_role: {
+            role: true
+          }
+        }
       });
 
       if (!users.length) {
@@ -143,20 +147,104 @@ export class UserService {
   async findOne(id: number) {
     try {
       const users = await this._userRepository.find({
-        select:['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
+        select: ['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
         where: {
           user_id: id,
           is_active: true
         },
-        relations: {user_by_role: {
-          role:true
-        }}
+        relations: {
+          user_by_role: {
+            role: true
+          }
+        }
       });
 
       if (!users) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.NOT_FOUND,
           response: id,
+          status: HttpStatus.NOT_FOUND
+        });
+      }
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK,
+          response: users,
+          status: HttpStatus.OK
+        },
+        debug: true
+      })
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findOneByEmail(email: string) {
+    try {
+      const users = await this._userRepository.find({
+        select: ['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
+        where: {
+          email: email,
+          is_active: true
+        },
+        relations: {
+          user_by_role: {
+            role: true
+          }
+        }
+      });
+
+      if (!users) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.NOT_FOUND,
+          response: email,
+          status: HttpStatus.NOT_FOUND
+        });
+      }
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK,
+          response: users,
+          status: HttpStatus.OK
+        },
+        debug: true
+      })
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findOneFullSearch(name: string) {
+    try {
+      const users = await this._userRepository.find({
+        select: ['user_id', 'email', 'first_name', 'last_name', 'user_by_role', 'created_by', 'created_at', 'update_by', 'updated_at', 'is_active'],
+        where: [
+          {
+            email: name,
+            is_active: true
+          },
+          {
+            last_name: name,
+            is_active: true
+          },
+          {
+            first_name: name,
+            is_active: true
+          }
+        ],
+        relations: {
+          user_by_role: {
+            role: true
+          }
+        }
+      });
+
+      if (!users) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.NOT_FOUND,
+          response: name,
           status: HttpStatus.NOT_FOUND
         });
       }
@@ -189,7 +277,7 @@ export class UserService {
           status: HttpStatus.NOT_FOUND
         });
       }
-      
+
       await this._userRepository.update(users.user_id, {
         ...updateUserDto,
         update_by: user.user_id
@@ -228,13 +316,13 @@ export class UserService {
           status: HttpStatus.NOT_FOUND
         });
       }
-      
+
       await this._userRepository.update(users.user_id, {
         is_active: false,
         update_by: user.user_id
       });
 
-      this._userByRoleRepository.update({user_id: users.user_id}, {
+      this._userByRoleRepository.update({ user_id: users.user_id }, {
         is_active: false,
         update_by: user.user_id
       })
@@ -243,7 +331,7 @@ export class UserService {
         data: {
           message: MessageStatus.User.NO_CONTENT(id),
           response: user.email,
-          status: HttpStatus.NO_CONTENT
+          status: HttpStatus.OK
         },
         debug: true
       })

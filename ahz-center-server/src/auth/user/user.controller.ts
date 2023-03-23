@@ -4,10 +4,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ErrorHandler } from '../../shared/handlers/error.handler';
 import { ResponseHandler } from '../../shared/handlers/response.handler';
-import { Req, Res } from '@nestjs/common/decorators';
+import { Req, Res, UseGuards } from '@nestjs/common/decorators';
 import { Request, Response } from 'express';
 import { UserJWT } from '../../shared/decorators/user-token.decorator';
 import { UserToken } from '../../shared/globaldto/user-token.dto';
+import { ValidRoleGuard } from '../../shared/guards/valid-role.guard';
+import { Roles } from '../../shared/decorators/role.decorator';
 
 
 @Controller()
@@ -58,18 +60,20 @@ export class UserController {
     @Res() res: Response,
     @UserJWT() user: UserToken
     ) {
-      const resultData = await this.userService.update(+id, updateUserDto, user);
+    const resultData = await this.userService.update(+id, updateUserDto, user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Delete(':id')
+  @Roles(1)
+  @UseGuards(ValidRoleGuard)
   async remove(
     @Param('id') id: string,
     @Req() req: Request,
     @Res() res: Response,
     @UserJWT() user: UserToken
     ) {
-      const resultData = await this.userService.remove(+id, user);
+    const resultData = await this.userService.remove(+id, user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
 }
