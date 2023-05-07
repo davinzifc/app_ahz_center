@@ -18,8 +18,8 @@ import { RestorePasswordDto } from './dto/restore-password.dto';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    protected readonly _responseHandler: ResponseHandler 
-    ) {}
+    protected readonly _responseHandler: ResponseHandler
+  ) { }
 
   @Post()
   async create(
@@ -27,7 +27,7 @@ export class UserController {
     @Res() res: Response,
     @Body() createUserDto: CreateUserDto,
     @UserJWT() user: UserToken
-    ) {
+  ) {
     const resultData = await this.userService.create(createUserDto, user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
@@ -46,7 +46,7 @@ export class UserController {
     @Param('id') id: string,
     @Req() req: Request,
     @Res() res: Response
-    ) {
+  ) {
     const resultData = await this.userService.findOne(+id);
     this._responseHandler.sendResponse(res, req, resultData);
   }
@@ -56,7 +56,7 @@ export class UserController {
     @Param('email') email: string,
     @Req() req: Request,
     @Res() res: Response
-    ) {
+  ) {
     const resultData = await this.userService.findOneByEmail(email);
     this._responseHandler.sendResponse(res, req, resultData);
   }
@@ -66,19 +66,19 @@ export class UserController {
     @Body() user: RestorePasswordDto,
     @Req() req: Request,
     @Res() res: Response
-    ) {
+  ) {
     const resultData = await this.userService.restorePassword(user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
 
   @Patch(':id')
   async update(
-    @Param('id') id: string, 
+    @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req: Request,
     @Res() res: Response,
     @UserJWT() user: UserToken
-    ) {
+  ) {
     const resultData = await this.userService.update(+id, updateUserDto, user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
@@ -91,7 +91,7 @@ export class UserController {
     @Req() req: Request,
     @Res() res: Response,
     @UserJWT() user: UserToken
-    ) {
+  ) {
     const resultData = await this.userService.remove(+id, user);
     this._responseHandler.sendResponse(res, req, resultData);
   }

@@ -15,6 +15,8 @@ import { RestorePasswordTokenRepository } from '../restore-password-token/restor
 import { RestorePasswordTokenService } from '../restore-password-token/restore-password-token.service';
 import { RestorePasswordToken } from '../restore-password-token/entities/restore-password-token.entity';
 import { generate } from 'generate-password';
+import { MailerService } from '@nestjs-modules/mailer';
+import { userBody } from 'shared/email-bodys/user.body.email';
 
 @Injectable()
 export class UserService {
@@ -27,11 +29,13 @@ export class UserService {
     protected readonly _userByRoleRepository: UserByRoleRepository,
     protected readonly _mailerUtil: MailerUtil,
     protected readonly _restorePasswordTokenRepository: RestorePasswordTokenRepository,
-    protected readonly _restorePasswordTokenService: RestorePasswordTokenService
+    protected readonly _restorePasswordTokenService: RestorePasswordTokenService,
+    protected readonly _mailerService: MailerService
   ) { }
 
   async create(cu: CreateUserDto, user: UserToken) {
     try {
+      console.log(cu)
       if (!this.validUser(cu)) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.BAD_REQUEST,
@@ -66,7 +70,7 @@ export class UserService {
 
       const role = await this._userRoleRepository.findOne({
         where: {
-          user_role_id: is_application?3:user_role_id
+          user_role_id: is_application ? 3 : user_role_id
         }
       });
 
@@ -87,8 +91,8 @@ export class UserService {
       const newUser = await this._userRepository.save({
         email: email.trim(),
         first_name: first_name,
-        last_name: is_application?'APP':last_name,
-        password: this._bcryptPasswordEncoder.encode(is_application? appPassword :password),
+        last_name: is_application ? 'APP' : last_name,
+        password: this._bcryptPasswordEncoder.encode(is_application ? appPassword : password),
         is_application: is_application,
         created_by: user.user_id,
         update_by: user.user_id
@@ -100,6 +104,13 @@ export class UserService {
         created_by: user.user_id,
         update_by: user.user_id
       })
+      newUser.password = is_application ? appPassword : password;
+
+      await this._mailerService.sendMail({
+        to: newUser.email,
+        subject: `[no-reply] Usuario creado exitosamente`,
+        html: userBody.create(newUser),
+      });
 
       delete newUser.password;
 
@@ -118,7 +129,7 @@ export class UserService {
 
   protected validUser(cu: CreateUserDto) {
     for (const key in cu) {
-      if (!Object.prototype.hasOwnProperty.call(cu, key) || !cu[key]) {
+      if (!Object.prototype.hasOwnProperty.call(cu, key) || cu[key] == undefined) {
         return false;
       }
     }
@@ -357,7 +368,7 @@ export class UserService {
     }
   }
 
-  async restorePassword(user: RestorePasswordDto){
+  async restorePassword(user: RestorePasswordDto) {
     try {
       const userData = await this._userRepository.findOne({
         where: {
@@ -365,7 +376,6 @@ export class UserService {
           is_active: true
         }
       });
-
       if (!userData) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.NOT_FOUND,
@@ -377,9 +387,11 @@ export class UserService {
       const token: string = this.prepareUuid(uuidv4());
       const restoreUser: RestorePasswordToken = await this._restorePasswordTokenService.createAnyToken(userData, token);
 
-      /**
-       * Aca la logica para el correo
-       */
+      await this._mailerService.sendMail({
+        to: user.email,
+        subject: `Test email`,
+        html: userBody.create(userData),
+      });
 
       return this._responseHandler.dataReturn({
         data: {
@@ -394,8 +406,8 @@ export class UserService {
     }
   }
 
-  protected prepareUuid(token: string): string{
+  protected prepareUuid(token: string): string {
     const regexUuid = /(-)/mg;
-    return token.replace(regexUuid,'');
+    return token.replace(regexUuid, '');
   }
 }

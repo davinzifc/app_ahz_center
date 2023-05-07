@@ -2,7 +2,7 @@ import { Exclude } from "class-transformer";
 import { Column, CreateDateColumn, JoinColumn, ManyToOne, UpdateDateColumn, } from "typeorm";
 import { User } from "../../auth/user/entities/user.entity";
 
-export abstract class BaseEntity{
+export abstract class BaseEntity {
     @CreateDateColumn({
         type: 'timestamp',
         name: 'created_at',
@@ -12,7 +12,9 @@ export abstract class BaseEntity{
 
     @Column({
         type: 'bigint',
-        name: 'created_by'
+        name: 'created_by',
+        nullable: true,
+        default: () => 'NULL'
     })
     created_by!: number;
 
