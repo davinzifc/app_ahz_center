@@ -26,16 +26,17 @@ export class JwtMiddleware implements NestMiddleware {
         @Next() next: NextFunction,
     ): Promise<void> {
         try {
-            const token = <string>req.headers['auth'];
-            const jwtPayload = await this._jwtService.verifyAsync(token, {
+            const uToken = <string>req.headers['auth'];
+            const uJwtPayload = await this._jwtService.verifyAsync(uToken, {
                 secret: env.JWT_SECRETS
             });
-            console.log(jwtPayload);
             next();
         } catch (error) {
             this._responseHandler.sendResponse(res, req, {
                 message: MessageStatus.Token.UNAUTHORIZED,
-                response: req.headers['auth'],
+                response: {
+                    user: req.headers['auth'],
+                },
                 status: HttpStatus.UNAUTHORIZED
             });
         }

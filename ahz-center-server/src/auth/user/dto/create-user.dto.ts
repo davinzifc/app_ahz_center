@@ -3,5 +3,6 @@ export class CreateUserDto {
     public last_name: string;
     public email: string;
     public password: string;
-    public user_type_id: number;
+    public user_role_id: number;
+    public is_application: boolean;
 }

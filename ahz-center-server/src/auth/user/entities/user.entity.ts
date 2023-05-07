@@ -20,10 +20,11 @@ export class User extends BaseEntity{
 
     @Column({
         type: 'text',
-        nullable: false,
-        name: 'last_name'
+        name: 'last_name',
+        nullable: true,
+        default: () => 'NULL'
     })
-    last_name: string;
+    last_name!: string;
 
     @Column({
         type: 'text',
@@ -37,6 +38,14 @@ export class User extends BaseEntity{
         name: 'password',
     })
     password: string;
+
+    @Column({
+        name: 'is_application',
+        type: 'boolean',
+        nullable: false,
+        default: false
+    })
+    is_application: boolean;
 
     @OneToMany(() => UserByRole, (ur) => ur.user)
     user_by_role: UserByRole[];

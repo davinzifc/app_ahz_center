@@ -7,6 +7,7 @@ import { UserRoleRepository } from '../user-role/user-role.repository';
 import { BcryptPasswordEncoder } from '../../shared/utils/bcrypt.util';
 import { UserByRoleRepository } from '../user-by-role/user-by-role.repository';
 import { MailerUtil } from '../../shared/utils/mailer.util';
+import { RestorePasswordTokenModule } from '../restore-password-token/restore-password-token.module';
 
 @Module({
   controllers: [UserController],
@@ -20,6 +21,7 @@ import { MailerUtil } from '../../shared/utils/mailer.util';
     MailerUtil,
     Number
   ],
-  exports: [UserRepository]
+  exports: [UserRepository],
+  imports: [RestorePasswordTokenModule]
 })
 export class UserModule {}

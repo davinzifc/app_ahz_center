@@ -26,3 +26,8 @@ export class returnDataDto {
   public data: any;
   public response: returnResponseDto;
 }
+
+export class intResultDataDto {
+  public data: any;
+  public error: boolean;
+}

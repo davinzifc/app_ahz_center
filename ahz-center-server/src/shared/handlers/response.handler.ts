@@ -1,6 +1,7 @@
 import { HttpStatus, Injectable, Logger, Req, Res } from '@nestjs/common';
+import { Type } from '@nestjs/passport';
 import { Request, Response } from 'express';
-import { configReturnData, configReturnError, configReturnRepositoryError, returnDataDto, returnResponseDto } from '../globaldto/response.dto';
+import { configReturnData, configReturnError, configReturnRepositoryError, intResultDataDto, returnDataDto, returnResponseDto } from '../globaldto/response.dto';
 
 @Injectable()
 export class ResponseHandler {
@@ -32,6 +33,13 @@ export class ResponseHandler {
 
   public throw(data: returnResponseDto) {
     return data;
+  }
+
+  public inReturnData({data, error}: intResultDataDto): intResultDataDto{
+    if (error) {
+      this._logger.debug(data);
+    }
+    return {data, error};
   }
 
   public sendResponse(

@@ -10,6 +10,7 @@ import { UserJWT } from '../../shared/decorators/user-token.decorator';
 import { UserToken } from '../../shared/globaldto/user-token.dto';
 import { ValidRoleGuard } from '../../shared/guards/valid-role.guard';
 import { Roles } from '../../shared/decorators/role.decorator';
+import { RestorePasswordDto } from './dto/restore-password.dto';
 
 
 @Controller()
@@ -34,8 +35,7 @@ export class UserController {
   @Get()
   async findAll(
     @Req() req: Request,
-    @Res() res: Response,
-    @UserJWT() user: UserToken
+    @Res() res: Response
   ) {
     const resultData = await this.userService.findAll();
     this._responseHandler.sendResponse(res, req, resultData);
@@ -45,10 +45,29 @@ export class UserController {
   async findOne(
     @Param('id') id: string,
     @Req() req: Request,
-    @Res() res: Response,
-    @UserJWT() user: UserToken
+    @Res() res: Response
     ) {
     const resultData = await this.userService.findOne(+id);
+    this._responseHandler.sendResponse(res, req, resultData);
+  }
+
+  @Get('email/:email')
+  async findByEmail(
+    @Param('email') email: string,
+    @Req() req: Request,
+    @Res() res: Response
+    ) {
+    const resultData = await this.userService.findOneByEmail(email);
+    this._responseHandler.sendResponse(res, req, resultData);
+  }
+
+  @Post('restore')
+  async restorePassword(
+    @Body() user: RestorePasswordDto,
+    @Req() req: Request,
+    @Res() res: Response
+    ) {
+    const resultData = await this.userService.restorePassword(user);
     this._responseHandler.sendResponse(res, req, resultData);
   }
 

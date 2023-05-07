@@ -6,7 +6,8 @@ export const MessageStatus = {
         CONFLICT: `The entered email already exists try retrieving the password or entering a different email address`,
         OK: `Users retrieved successfully`,
         NO_CONTENT: (id: number) => `User ${id} has been successfully deleted`,
-        NOT_FOUND: `The user you requested does not exist.`
+        NOT_FOUND: `The user you requested does not exist.`,
+        RESTORE: (email: string) => `The steps have been correctly sent to the e-mail ${email}`
     },
     UserRole: {
         NOT_FOUND: `The role you requested does not exist.`
@@ -16,5 +17,8 @@ export const MessageStatus = {
     },
     Token: {
         UNAUTHORIZED: `Invalid token`
+    },
+    RestorePasswordToken: {
+        CONFLICT: ``
     }
 }

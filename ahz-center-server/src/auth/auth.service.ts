@@ -27,7 +27,7 @@ export class AuthService {
         }
       });
 
-      if(!u && !this._bcryptPasswordEncoder.matches(u?.password, user.password)){
+      if(!this._bcryptPasswordEncoder.matches(u?.password, user.password)){
         throw this._responseHandler.throw({
           message: MessageStatus.User.UNAUTHORIZED,
           response: user.email,
@@ -56,5 +56,4 @@ export class AuthService {
       return this._responseHandler.errorReturn({data: error, debug: true});
     }
   }
-
 }
