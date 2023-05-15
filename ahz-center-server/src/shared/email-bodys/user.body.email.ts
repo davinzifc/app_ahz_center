@@ -1,8 +1,8 @@
 import { User } from "auth/user/entities/user.entity"
-
+//test
 export const userBody = {
-    create: (user: User) => {
-        return `
+	create: (user: User) => {
+		return `
         <!DOCTYPE html>
             <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -221,5 +221,5 @@ export const userBody = {
                 
             </html>
         `
-    }
+	}
 }
