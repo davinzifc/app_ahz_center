@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,7 +17,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ResponseHandler } from './shared/handlers/response.handler';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { env } from 'process';
-
+import { NonUserMentAlzhModule } from './api/non-user-ment-alzh/non-user-ment-alzh.module';
+import { MentAlzhModule } from './api/ment-alzh/ment-alzh.module';
 
 @Module({
   imports: [
@@ -26,7 +32,7 @@ import { env } from 'process';
         service: 'gmail',
         auth: {
           user: env.MAIL_USER,
-          pass: env.MAIL_PASS
+          pass: env.MAIL_PASS,
         },
       },
       defaults: {
@@ -35,11 +41,11 @@ import { env } from 'process';
     }),
     RouterModule.register(MainRoutes),
     AuthModule,
-    Reflector
+    Reflector,
+    NonUserMentAlzhModule,
+    MentAlzhModule,
   ],
-  controllers: [
-    AppController
-  ],
+  controllers: [AppController],
   providers: [
     AppService,
     JwtService,
@@ -60,6 +66,10 @@ export class AppModule implements NestModule {
       },
       {
         path: 'auth/user/*',
+        method: RequestMethod.ALL,
+      },
+      {
+        path: 'api/*',
         method: RequestMethod.ALL,
       },
     );

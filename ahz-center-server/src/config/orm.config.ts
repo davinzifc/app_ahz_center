@@ -11,14 +11,15 @@ export const dataSource: DataSource = new DataSource({
   password: env.DB_USER_PASS,
   database: env.DB_NAME,
   entities: [
-    join(__dirname,'..','auth','**','*.entity.{js,ts}')
+    join(__dirname, '..', 'auth', '**', '*.entity.{js,ts}'),
+    join(__dirname, '..', 'api', '**', '*.entity.{js,ts}'),
   ],
   synchronize: false,
   charset: 'utf8mb4_general_ci',
   migrationsRun: false,
   logging: false,
   bigNumberStrings: false,
-  migrations: [join(__dirname,'..','migrations','**','*{.ts,.js}')],
+  migrations: [join(__dirname, '..', 'migrations', '**', '*{.ts,.js}')],
   migrationsTableName: 'migrations',
   metadataTableName: 'orm_metadata',
 });

@@ -8,6 +8,8 @@ import { BcryptPasswordEncoder } from '../../shared/utils/bcrypt.util';
 import { UserByRoleRepository } from '../user-by-role/user-by-role.repository';
 import { MailerUtil } from '../../shared/utils/mailer.util';
 import { RestorePasswordTokenModule } from '../restore-password-token/restore-password-token.module';
+import { EmailReaderUtile } from '../../shared/utils/email-reader.util';
+import { ResponseInterceptor } from '../../shared/interceptors/response.interseptor';
 
 @Module({
   controllers: [UserController],
@@ -19,7 +21,9 @@ import { RestorePasswordTokenModule } from '../restore-password-token/restore-pa
     BcryptPasswordEncoder,
     UserByRoleRepository,
     MailerUtil,
-    Number
+    Number,
+    EmailReaderUtile,
+    ResponseInterceptor
   ],
   exports: [UserRepository],
   imports: [RestorePasswordTokenModule]
