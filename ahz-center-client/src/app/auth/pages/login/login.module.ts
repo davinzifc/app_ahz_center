@@ -9,6 +9,8 @@ import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -19,8 +21,10 @@ import { MessageService } from 'primeng/api';
     InputTextModule,
     ButtonModule,
     PasswordModule,
-    MessagesModule,
     ToastModule,
+    MessagesModule,
+    TagModule,
+    DividerModule,
   ],
   providers: [MessageService],
 })

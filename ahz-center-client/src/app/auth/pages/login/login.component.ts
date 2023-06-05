@@ -3,6 +3,10 @@ import { loginDto } from '../../services/dto/login.dto';
 import { ConnectionsService } from '../../../api/connections.service';
 import { ResponseInterface } from '../../../shared/interfaces/response.interface';
 import { MessageService } from 'primeng/api';
+import { TypeToast } from '../../../shared/constants/toast.enum';
+import { UserDataService } from '../../services/user-data.service';
+import { OkUserResponse } from '../../interface/ok-user-response.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,20 +22,29 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _api: ConnectionsService,
-    private _messageService: MessageService
+    private _messageService: MessageService,
+    public _userDataService: UserDataService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {}
 
   public loginUser() {
-    this.showBottomCenter();
+    this._messageService.clear();
     this.loading = true;
     this._api.PATCH_login(this.login).subscribe({
       next: (res) => {
         const response = <ResponseInterface>res;
-        console.info(response.response);
+        const { token, user } = <OkUserResponse>response.response;
+        this._userDataService.storageManagement(user, token);
+        this._router.navigate(['/main/profile/12']);
       },
       error: (err) => {
+        this.showBottomCenter(
+          TypeToast.ERROR,
+          'Error',
+          'Email or password incorrect'
+        );
         const { error }: { error: ResponseInterface } = err;
         console.error(error);
         this.loading = false;
@@ -42,12 +55,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  showBottomCenter() {
+  showBottomCenter(type: TypeToast, sumary: string, detail: string) {
     this._messageService.add({
-      key: 'bc',
-      severity: 'error',
-      summary: 'Success',
-      detail: 'Message Content',
+      severity: type,
+      summary: sumary,
+      detail: detail,
     });
   }
 }

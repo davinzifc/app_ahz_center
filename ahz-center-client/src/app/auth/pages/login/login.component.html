@@ -3,10 +3,16 @@
   class="w-screen h-screen flex justify-content-center align-items-center flex-wrap"
 >
   <div class="w-auto h-27rem p-5 border-round-md">
-    <p-toast></p-toast>
+    <p-toast position="bottom-center"></p-toast>
     <div class="card mb-3 flex justify-content-center">
       <div class="flex flex-column gap-2">
-        <h1>El poderosisimo titulo</h1>
+        <h1 class="m-0">
+          <b [ngStyle]="{ color: 'var(--primary-color)' }">ALHZ</b>
+          reporting center
+        </h1>
+        <p-divider align="center">
+          <span class="p-tag">CLIENT</span>
+        </p-divider>
       </div>
     </div>
 
@@ -39,7 +45,8 @@
         class="flex flex-column justify-content-center align-items-center gap-2"
       >
         <p-button
-          label="Submit"
+          label="Login"
+          pRipple
           [loading]="loading"
           (click)="loginUser()"
         ></p-button>

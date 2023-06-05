@@ -2,10 +2,12 @@ import { Route, Routes } from '@angular/router';
 import { LoginComponent } from './auth/pages/login/login.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { MainComponent } from './shared/pages/main/main.component';
+import { loginGuard } from './auth/guards/login.guard';
 
 export const login_route: AzhRoutes = {
   name: 'Login',
   path: 'login',
+  canActivate: [loginGuard],
   loadChildren: () =>
     import('./auth/pages/login/login.module').then((l) => l.LoginModule),
 };
