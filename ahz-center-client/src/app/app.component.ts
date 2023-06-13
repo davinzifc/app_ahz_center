@@ -12,10 +12,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.zIndex = {
-      modal: 2100, // dialog, sidebar
-      overlay: 1000, // dropdown, overlaypanel
-      menu: 1000, // overlay menus
-      tooltip: 1100, // tooltip
+      modal: 2100,
+      overlay: 1000,
+      menu: 1000,
+      tooltip: 1100,
     };
+    this.primengConfig.ripple = true;
   }
 }

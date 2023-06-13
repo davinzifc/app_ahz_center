@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { children_main_routes, main_routes } from '../../../main.routes';
-import { MainComponent } from './main.component';
+import { CenterComponent } from './center.component';
+import { children_center_routes } from '../../../main.routes';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
-    children: children_main_routes,
+    component: CenterComponent,
+    children: children_center_routes,
   },
 ];
 
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MainRoutingModule {}
+export class CenterRoutingModule {}

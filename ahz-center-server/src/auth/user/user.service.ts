@@ -525,6 +525,53 @@ export class UserService {
       .flat();
   }
 
+  async findProfileActive(user: UserToken) {
+    try {
+      const users = await this._userRepository.findOne({
+        select: [
+          'user_id',
+          'email',
+          'first_name',
+          'last_name',
+          'user_by_role',
+          'created_by',
+          'created_at',
+          'update_by',
+          'updated_at',
+          'is_active',
+        ],
+        where: {
+          user_id: user.user_id,
+          is_active: true,
+        },
+        relations: {
+          user_by_role: {
+            role: true,
+          },
+        },
+      });
+
+      if (!users) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.NOT_FOUND,
+          response: {},
+          status: HttpStatus.NOT_FOUND,
+        });
+      }
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK,
+          response: users,
+          status: HttpStatus.OK,
+        },
+        debug: true,
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
   protected prepareUuid(token: string): string {
     const regexUuid = /(-)/gm;
     return token.replace(regexUuid, '');

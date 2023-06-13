@@ -17,7 +17,7 @@ export class UserDataService {
   public activeUser() {
     let validation = false;
     this.getUserData();
-    if (this.controller?.token) {
+    if (this.controller?.token && localStorage.getItem('token')) {
       try {
         const tokenPayload: any = jwt_decode(this.controller?.token);
         const tokenExpirationDate = new Date(tokenPayload.exp * 1000);
@@ -38,14 +38,24 @@ export class UserDataService {
   }
 
   public getUserData() {
+    const token_data = localStorage.getItem('token');
+    if (!token_data) return this.singOut();
     this.controller = {
-      token: localStorage.getItem('token') || '',
-      user: JSON.parse(localStorage.getItem('user') || '{}'),
+      token: token_data || '',
+      user: jwt_decode(token_data),
     };
   }
 
   public storageManagement(user: User, token: string) {
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    this.getUserData();
+  }
+
+  public singOut() {
+    localStorage.removeItem('token');
+    this.controller = {
+      token: '',
+      user: new User(),
+    };
   }
 }

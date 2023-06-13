@@ -78,4 +78,9 @@ export class UserController {
   async remove(@Param('id') id: string, @UserJWT() user: UserToken) {
     return await this.userService.remove(+id, user);
   }
+
+  @Get('active/profile')
+  async findActiveProfile(@UserJWT() user: UserToken) {
+    return this.userService.findProfileActive(user);
+  }
 }

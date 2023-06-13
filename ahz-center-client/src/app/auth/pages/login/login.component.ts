@@ -7,6 +7,7 @@ import { TypeToast } from '../../../shared/constants/toast.enum';
 import { UserDataService } from '../../services/user-data.service';
 import { OkUserResponse } from '../../interface/ok-user-response.interface';
 import { Router } from '@angular/router';
+import { User } from '../../interface/user.dto';
 
 @Component({
   selector: 'app-login',
@@ -34,10 +35,12 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this._api.PATCH_login(this.login).subscribe({
       next: (res) => {
-        const response = <ResponseInterface>res;
+        const response = <ResponseInterface<OkUserResponse>>(<unknown>res);
         const { token, user } = <OkUserResponse>response.response;
         this._userDataService.storageManagement(user, token);
-        this._router.navigate(['/main/profile/12']);
+        this._router.navigate([
+          `/center/profile/${this._userDataService.controller.user.user_id}`,
+        ]);
       },
       error: (err) => {
         this.showBottomCenter(
@@ -45,7 +48,7 @@ export class LoginComponent implements OnInit {
           'Error',
           'Email or password incorrect'
         );
-        const { error }: { error: ResponseInterface } = err;
+        const { error }: { error: ResponseInterface<any> } = err;
         console.error(error);
         this.loading = false;
       },

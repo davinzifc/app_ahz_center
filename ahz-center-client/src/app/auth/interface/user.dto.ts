@@ -6,6 +6,16 @@ export class User extends BaseEntity {
   public last_name?: string = '';
   public email: string = '';
   public is_application?: boolean | null = null;
-  public user_by_role: any[] = [];
-  public list_ment_alzh: any[] = [];
+  public user_by_role!: UserByRole[];
+}
+
+export class UserByRole extends BaseEntity {
+  public user_id!: number;
+  public role_id!: number;
+  public role!: Role;
+}
+
+export class Role {
+  public user_role_id!: number;
+  public role_name!: string;
 }
