@@ -9,6 +9,7 @@ export const MessageStatus = {
     NOT_FOUND: `The user you requested does not exist.`,
     RESTORE: (email: string) =>
       `The steps have been correctly sent to the e-mail ${email}`,
+    OK_UPDATE: (id: number) => `User ${id} has been successfully updated`,
   },
   UserRole: {
     NOT_FOUND: `The role you requested does not exist.`,

@@ -8,6 +8,7 @@ import { UserDataService } from '../../services/user-data.service';
 import { OkUserResponse } from '../../interface/ok-user-response.interface';
 import { Router } from '@angular/router';
 import { User } from '../../interface/user.dto';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,32 +31,30 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public loginUser() {
+  public async loginUser() {
     this._messageService.clear();
     this.loading = true;
-    this._api.PATCH_login(this.login).subscribe({
-      next: (res) => {
-        const response = <ResponseInterface<OkUserResponse>>(<unknown>res);
-        const { token, user } = <OkUserResponse>response.response;
-        this._userDataService.storageManagement(user, token);
-        this._router.navigate([
-          `/center/profile/${this._userDataService.controller.user.user_id}`,
-        ]);
-      },
-      error: (err) => {
-        this.showBottomCenter(
-          TypeToast.ERROR,
-          'Error',
-          'Email or password incorrect'
-        );
-        const { error }: { error: ResponseInterface<any> } = err;
-        console.error(error);
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
+    try {
+      const res = await (<Promise<ResponseInterface<OkUserResponse>>>(
+        lastValueFrom(this._api.PATCH_login(this.login))
+      ));
+      const controller = await this._userDataService.storageManagement(
+        res.response.user,
+        res.response.token
+      );
+      this._router.navigate([
+        `/center/profile/${this._userDataService.controller.user.user_id}`,
+      ]);
+      this.loading = false;
+    } catch (error) {
+      this.showBottomCenter(
+        TypeToast.ERROR,
+        'Error',
+        'Email or password incorrect'
+      );
+      console.error(error);
+      this.loading = false;
+    }
   }
 
   showBottomCenter(type: TypeToast, sumary: string, detail: string) {

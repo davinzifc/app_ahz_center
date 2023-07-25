@@ -20,6 +20,7 @@ import { ValidRoleGuard } from '../../shared/guards/valid-role.guard';
 import { Roles } from '../../shared/decorators/role.decorator';
 import { RestorePasswordDto } from './dto/restore-password.dto';
 import { ResponseInterceptor } from '../../shared/interceptors/response.interseptor';
+import { UpdateAttributeDto } from './dto/update-attribute.dto';
 
 @Controller()
 @UseFilters(new ErrorHandler())
@@ -82,5 +83,13 @@ export class UserController {
   @Get('active/profile')
   async findActiveProfile(@UserJWT() user: UserToken) {
     return this.userService.findProfileActive(user);
+  }
+
+  @Patch('active/profile')
+  async updateActiveProfile(
+    @UserJWT() user: UserToken,
+    @Body() cu: UpdateAttributeDto,
+  ) {
+    return this.userService.updateAttribute(user, cu);
   }
 }

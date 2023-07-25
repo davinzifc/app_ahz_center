@@ -22,6 +22,7 @@ import { APP } from '../../shared/constants/info-api.const';
 import { EmailReaderUtile } from '../../shared/utils/email-reader.util';
 import { returnResponseDto } from '../../shared/globaldto/response.dto';
 import { Like } from 'typeorm';
+import { UpdateAttributeDto } from './dto/update-attribute.dto';
 
 @Injectable()
 export class UserService {
@@ -40,7 +41,6 @@ export class UserService {
 
   async create(cu: CreateUserDto, user: UserToken): Promise<returnResponseDto> {
     try {
-      console.log(cu);
       if (!this.validUser(cu)) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.BAD_REQUEST,
@@ -55,6 +55,10 @@ export class UserService {
         password,
         user_role_id,
         is_application,
+        birthdate,
+        identity_card,
+        phone_number,
+        gender_id,
       } = cu;
 
       const existUser = await this._userRepository.findOne({
@@ -108,6 +112,10 @@ export class UserService {
           is_application ? appPassword : password,
         ),
         is_application: is_application,
+        birthdate: birthdate,
+        identity_card: identity_card,
+        phone_number: phone_number,
+        gender_id: gender_id,
         created_by: user.user_id,
         update_by: user.user_id,
       });
@@ -140,6 +148,36 @@ export class UserService {
           status: HttpStatus.CREATED,
         },
         debug: true,
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async updateAttribute(user: UserToken, at: UpdateAttributeDto) {
+    try {
+      const res = await this._userRepository.findOne({
+        where: {
+          user_id: user.user_id,
+          is_active: true,
+        },
+      });
+
+      if (!res) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.NOT_FOUND,
+          response: {},
+          status: HttpStatus.NOT_FOUND,
+        });
+      }
+
+      await this._userRepository.update(res.user_id, at);
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK_UPDATE(res.user_id),
+          response: {},
+          status: HttpStatus.OK,
+        },
       });
     } catch (error) {
       return this._responseHandler.errorReturn({ data: error, debug: true });
@@ -528,18 +566,6 @@ export class UserService {
   async findProfileActive(user: UserToken) {
     try {
       const users = await this._userRepository.findOne({
-        select: [
-          'user_id',
-          'email',
-          'first_name',
-          'last_name',
-          'user_by_role',
-          'created_by',
-          'created_at',
-          'update_by',
-          'updated_at',
-          'is_active',
-        ],
         where: {
           user_id: user.user_id,
           is_active: true,
@@ -548,8 +574,11 @@ export class UserService {
           user_by_role: {
             role: true,
           },
+          obj_gender: true,
         },
       });
+
+      delete users.password;
 
       if (!users) {
         throw this._responseHandler.throw({
@@ -565,7 +594,6 @@ export class UserService {
           response: users,
           status: HttpStatus.OK,
         },
-        debug: true,
       });
     } catch (error) {
       return this._responseHandler.errorReturn({ data: error, debug: true });

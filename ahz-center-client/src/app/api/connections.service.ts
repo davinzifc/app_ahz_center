@@ -12,14 +12,15 @@ import { UserDataService } from '../auth/services/user-data.service';
   providedIn: 'root',
 })
 export class ConnectionsService {
-  private options: any = {
-    headers: { auth: this._userDataService.controller.token },
+  private options: { headers: { auth: any } } = {
+    headers: { auth: '' },
   };
 
-  constructor(
-    public http: HttpClient,
-    private readonly _userDataService: UserDataService
-  ) {}
+  constructor(public http: HttpClient) {}
+
+  updateOptions(token?: string) {
+    this.options.headers.auth = token ? token : localStorage.getItem('token');
+  }
 
   PATCH_login(body: loginDto) {
     return this.http.patch(
@@ -29,9 +30,19 @@ export class ConnectionsService {
     );
   }
 
-  GET_activeProfile() {
+  GET_activeProfile(token?: string) {
+    this.updateOptions(token);
     return this.http.get(
       `${environments.api_url}auth/user/active/profile`,
+      this.options
+    );
+  }
+
+  PATCH_updateActiveProfile(updateData: any) {
+    this.updateOptions();
+    return this.http.patch(
+      `${environments.api_url}auth/user/active/profile`,
+      updateData,
       this.options
     );
   }

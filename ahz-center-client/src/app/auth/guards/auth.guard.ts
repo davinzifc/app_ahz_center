@@ -5,7 +5,6 @@ import { UserDataService } from '../services/user-data.service';
 export const authGuard: CanActivateFn = (route, state) => {
   const _userDataService = inject(UserDataService);
   const _router = inject(Router);
-  console.log(_userDataService.activeUser());
   if (_userDataService.activeUser()) {
     return true;
   } else {

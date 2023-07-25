@@ -7,6 +7,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { AvatarModule } from 'primeng/avatar';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { RippleModule } from 'primeng/ripple';
+import { BtnHomeModule } from './component/btn-home/btn-home.module';
+import { CardModule } from 'primeng/card';
+import { ContentMenuModule } from './component/content-menu/content-menu.module';
 
 @NgModule({
   declarations: [CenterComponent],
@@ -17,6 +20,9 @@ import { RippleModule } from 'primeng/ripple';
     AvatarModule,
     FocusTrapModule,
     RippleModule,
+    BtnHomeModule,
+    CardModule,
+    ContentMenuModule,
   ],
 })
 export class CenterModule {}

@@ -1,0 +1,67 @@
+<p-card
+  [routerLink]="item_menu.link"
+  id="btn-home-avatar"
+  pRipple
+  styleClass="m-2 flex justify-content-center flex-wrap card card-container"
+  [style]="{
+    cursor: 'pointer',
+    'background-color': item_menu.focus ? '#3B82F6' : '',
+    color: item_menu.focus ? '#FFFFFF' : ''
+  }"
+  [ngClass]="{
+    'un-focus-item': item_menu.focus,
+    'focus-item': !item_menu.focus
+  }"
+>
+  <p-avatar
+    pFocusTrap
+    [label]="av_name"
+    styleClass="w-5rem h-5rem "
+    size="xlarge"
+    shape="circle"
+    [style]="{
+      'background-color': item_menu.focus ? '#FFFFFF' : '#3B82F6',
+      color: item_menu.focus ? '#3B82F6' : '#ffffff',
+    }"
+    [ngClass]="{
+      'un-focus-item': item_menu.focus,
+      'focus-item': !item_menu.focus
+    }"
+  ></p-avatar>
+  <div>
+    <div class="mt-1 w-full">
+      <b>{{ user.first_name }}</b>
+    </div>
+    <div class="mt-0 w-full">
+      <b>{{ av_last_name }}</b>
+    </div>
+  </div>
+  <p-tag
+    class="mt-3"
+    [style]="{
+      'background-color': item_menu.focus ? '#FFFFFF' : '#3B82F6',
+      color: item_menu.focus ? '#3B82F6' : '#ffffff',
+    }"
+    [ngClass]="{
+      'un-focus-item': item_menu.focus,
+      'focus-item': !item_menu.focus
+    }"
+    [value]="user.user_by_role ? user.user_by_role[0].role.role_name : ''"
+  ></p-tag>
+  <div class="text-xs mt-3">
+    <i
+      >Welcome to
+      <span
+        [style]="{
+      color: item_menu.focus ? '#FFFFFF' : '#2196F3',
+    }"
+        [ngClass]="{
+          'un-focus-item': item_menu.focus,
+          'focus-item': !item_menu.focus
+        }"
+        >ALHZ</span
+      >
+      center</i
+    >
+  </div>
+</p-card>

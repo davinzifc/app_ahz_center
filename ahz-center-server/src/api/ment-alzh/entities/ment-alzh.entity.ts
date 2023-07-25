@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from '../../../auth/user/entities/user.entity';
 import { BaseEntity } from '../../../shared/entity-extends/base-entity';
+import { NonUserMentAlzh } from '../../non-user-ment-alzh/entities/non-user-ment-alzh.entity';
 
 @Entity('ment_alzh')
 export class MentAlzh extends BaseEntity {
@@ -22,22 +23,6 @@ export class MentAlzh extends BaseEntity {
     nullable: false,
   })
   user_id: number;
-
-  @Column({
-    name: 'edad',
-    nullable: true,
-    type: 'int',
-    default: () => 'NULL',
-  })
-  edad: number;
-
-  @Column({
-    name: 'sexo',
-    type: 'text',
-    nullable: true,
-    default: () => 'NULL',
-  })
-  sexo: string;
 
   @Column({
     name: 'orientacion_1',
@@ -134,6 +119,17 @@ export class MentAlzh extends BaseEntity {
     default: () => 'NULL',
   })
   memoria_time: string;
+
+  @Column({
+    name: 'non_user_ment_alzh_id',
+    type: 'bigint',
+    nullable: false,
+  })
+  non_user_ment_alzh_id: number;
+
+  @ManyToOne(() => NonUserMentAlzh, (numa) => numa.non_user_ment_alzh_id)
+  @JoinColumn({ name: 'non_user_ment_alzh_id' })
+  obj_non_user_ment_alzh: NonUserMentAlzh;
 
   @ManyToOne(() => User, (user) => user.list_ment_alzh)
   @JoinColumn({ name: 'user_id' })

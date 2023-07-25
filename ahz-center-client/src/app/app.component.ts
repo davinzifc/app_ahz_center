@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { UserDataService } from './auth/services/user-data.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,13 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
   title = 'ahz-center-client';
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private _userDataService: UserDataService
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this._userDataService.getUserData();
     this.primengConfig.zIndex = {
       modal: 2100,
       overlay: 1000,

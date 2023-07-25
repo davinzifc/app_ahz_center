@@ -2,6 +2,7 @@ import { Route, Routes } from '@angular/router';
 import { LoginComponent } from './auth/pages/login/login.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { loginGuard } from './auth/guards/login.guard';
+import { adminRoleGuard } from './auth/guards/role-admin.guard';
 
 export const login_route: AzhRoutes = {
   name: 'Login',
@@ -37,6 +38,31 @@ export const children_center_routes: AzhRoutes[] = [
       ),
   },
   {
+    name: 'Management reports',
+    path: 'management-reports',
+    canActivate: [adminRoleGuard],
+    loadChildren: () =>
+      import(
+        './shared/pages/center/pages/management-reports/management-reports.module'
+      ).then((m) => m.ManagementReportsModule),
+  },
+  {
+    name: 'Management tickets',
+    path: 'management-tickets',
+    loadChildren: () =>
+      import(
+        './shared/pages/center/pages/management-ticket/management-ticket.module'
+      ).then((m) => m.ManagementTicketModule),
+  },
+  {
+    name: 'My reports',
+    path: 'my-reports',
+    loadChildren: () =>
+      import('./shared/pages/center/pages/my-reports/my-reports.module').then(
+        (m) => m.MyReportsModule
+      ),
+  },
+  {
     name: '',
     path: '**',
     redirectTo: '/center/main',
@@ -54,7 +80,7 @@ const default_login_route: AzhRoutes = {
 const default_main_route: AzhRoutes = {
   name: '',
   path: '**',
-  redirectTo: '/center/main/profile/12',
+  redirectTo: '/center/main',
   pathMatch: 'full',
 };
 

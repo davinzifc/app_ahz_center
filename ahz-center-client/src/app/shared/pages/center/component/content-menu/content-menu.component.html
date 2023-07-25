@@ -1,0 +1,36 @@
+<app-btn-home
+  [user]="this.user"
+  [av_name]="av_name"
+  [av_last_name]="av_last_name"
+  [item_menu]="itemMenu"
+  (click)="onFocusMenu(itemMenu)"
+></app-btn-home>
+<p-card id="content-menu-index" styleClass="m-2 card card-container">
+  <div
+    pRipple
+    *ngFor="let item of menuItems"
+    class="w-full py-1"
+    [style]="{ cursor: 'pointer' }"
+    (click)="onFocusMenu(item)"
+    routerLink="{{ item.link }}"
+  >
+    <div
+      class="item-menu h-2rem flex align-items-center"
+      [style]="{
+        cursor: 'pointer',
+        'border-radius': '6px'
+      }"
+      [ngStyle]="{
+        'background-color': item.focus ? '#3B82F6' : '',
+        color: item.focus ? '#FFFFFF' : ''
+      }"
+    >
+      <b>
+        <i class="{{ item.icon }} mr-2 ml-2"></i>
+      </b>
+      <label [style]="{ cursor: 'pointer' }">
+        <b>{{ item.name }}</b>
+      </label>
+    </div>
+  </div>
+</p-card>

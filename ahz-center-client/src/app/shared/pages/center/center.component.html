@@ -1,36 +1,16 @@
-<div class="flex w-full h-full">
-  <div class="w-10rem">
-    <div
-      class="flex justify-content-center flex-wrap"
-      [style]="{
-        margin: '1rem'
-      }"
-    >
-      <p-avatar
-        pFocusTrap
-        pRipple
-        icon="pi pi-user"
-        styleClass="w-5rem h-5rem"
-        size="xlarge"
-        shape="circle"
-        [style]="{
-          'background-color': '#2196F3',
-          color: '#ffffff',
-          cursor: 'pointer'
-        }"
-        routerLink="profile/{{ this._userDataService.controller.user.user_id }}"
-      ></p-avatar>
-      <span class="mt-1"
-        ><b>{{ this._userDataService.controller.user.first_name }}</b></span
-      >
-    </div>
-    <p-panelMenu
-      class="custom-p-panel"
-      [model]="items"
-      [style]="{ width: '100%' }"
-    ></p-panelMenu>
+<div id="parent-index" class="flex w-full h-full">
+  <div class="w-16rem">
+    <app-content-menu
+      [menuItems]="items"
+      [user]="this.userActive"
+      [av_name]="ac_name"
+      [av_last_name]="ac_last_name"
+      [itemMenu]="profile"
+    ></app-content-menu>
   </div>
-  <div>
-    <router-outlet></router-outlet>
+  <div id="c-index" class="w-full h-full">
+    <p-card styleClass="m-2">
+      <router-outlet></router-outlet>
+    </p-card>
   </div>
 </div>

@@ -1,0 +1,45 @@
+::ng-deep {
+  #btn-home-avatar {
+    overflow: hidden;
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex-direction: column;
+
+      p-avatar {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      .p-card-body {
+        padding: 0.2rem 1rem !important;
+        div {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          div {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            div {
+              display: flex;
+              justify-content: center;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.focus-item {
+  background-color: "#FFFFFF";
+  color: "#3B82F6";
+}
+
+.un-focus-item {
+  background-color: "#3B82F6";
+  color: "#ffffff";
+}
