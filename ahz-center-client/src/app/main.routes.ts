@@ -20,6 +20,25 @@ export const center_routes: AzhRoutes = {
     import('./shared/pages/center/center.module').then((c) => c.CenterModule),
 };
 
+export const management_users_reports: AzhRoutes[] = [
+  {
+    name: 'Reports by user',
+    path: 'reports-by-user',
+    loadChildren: () =>
+      import(
+        './shared/pages/center/pages/management-reports/pages/reports-by-user/reports-by-user.module'
+      ).then((m) => m.ReportsByUserModule),
+  },
+  {
+    name: 'Assing reports to user',
+    path: 'assing-reports',
+    loadChildren: () =>
+      import(
+        './shared/pages/center/pages/management-reports/pages/assign-reports-to-user/assign-reports-to-user.module'
+      ).then((m) => m.AssignReportsToUserModule),
+  },
+];
+
 export const children_center_routes: AzhRoutes[] = [
   {
     name: 'Profile',
@@ -45,6 +64,15 @@ export const children_center_routes: AzhRoutes[] = [
       import(
         './shared/pages/center/pages/management-reports/management-reports.module'
       ).then((m) => m.ManagementReportsModule),
+  },
+  {
+    name: 'Management users',
+    path: 'management-users',
+    canActivate: [adminRoleGuard],
+    loadChildren: () =>
+      import(
+        './shared/pages/center/pages/management-users/management-users.module'
+      ).then((m) => m.ManagementUsersModule),
   },
   {
     name: 'Management tickets',

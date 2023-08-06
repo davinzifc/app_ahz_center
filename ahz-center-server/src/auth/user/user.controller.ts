@@ -70,7 +70,20 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @UserJWT() user: UserToken,
   ) {
-    return await this.userService.update(+id, updateUserDto, user);
+    return await this.userService.updateUser(user, +id, updateUserDto);
+  }
+
+  @Get('restricted/report')
+  async findAllRestricted(@UserJWT() user: UserToken) {
+    return await this.userService.findUsersByRoleActive(user);
+  }
+
+  @Get('role/:roleId')
+  async findAllByRoleId(
+    @UserJWT() user: UserToken,
+    @Param('roleId') roleId: string,
+  ) {
+    return await this.userService.findUsersByRoleType(+roleId, user);
   }
 
   @Delete(':id')
@@ -83,6 +96,11 @@ export class UserController {
   @Get('active/profile')
   async findActiveProfile(@UserJWT() user: UserToken) {
     return this.userService.findProfileActive(user);
+  }
+
+  @Get('active/genders')
+  async findAllGenders() {
+    return this.userService.findAllGender();
   }
 
   @Patch('active/profile')

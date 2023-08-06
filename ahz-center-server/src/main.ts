@@ -12,7 +12,7 @@ async function bootstrap() {
       /** It is executed when the connection to the database is successful. */
       dataSource.query(`SHOW TABLES`).then((data) => {
         data.map((el) => {
-          console.log('✨ ', el['Tables_in_ahzdb']);
+          console.log('✨ ', el['Tables_in_alzhcent_ahzdb']);
         });
       });
       console.log(`The connection to the database is successful`);

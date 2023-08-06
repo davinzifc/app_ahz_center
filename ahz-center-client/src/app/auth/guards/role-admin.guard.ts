@@ -6,7 +6,7 @@ export const adminRoleGuard: CanActivateFn = (route, state) => {
   const _userDataService = inject(UserDataService);
   const _router = inject(Router);
   if (
-    _userDataService.controller.user.user_by_role?.find((el) => el.role_id <= 2)
+    _userDataService.controller.user.user_by_role?.find((el) => el.role_id <= 4)
   ) {
     return true;
   } else {

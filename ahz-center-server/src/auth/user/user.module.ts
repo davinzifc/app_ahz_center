@@ -10,6 +10,7 @@ import { MailerUtil } from '../../shared/utils/mailer.util';
 import { RestorePasswordTokenModule } from '../restore-password-token/restore-password-token.module';
 import { EmailReaderUtile } from '../../shared/utils/email-reader.util';
 import { ResponseInterceptor } from '../../shared/interceptors/response.interseptor';
+import { GenderRepository } from './gender.repository';
 
 @Module({
   controllers: [UserController],
@@ -23,9 +24,10 @@ import { ResponseInterceptor } from '../../shared/interceptors/response.intersep
     MailerUtil,
     Number,
     EmailReaderUtile,
-    ResponseInterceptor
+    ResponseInterceptor,
+    GenderRepository,
   ],
   exports: [UserRepository],
-  imports: [RestorePasswordTokenModule]
+  imports: [RestorePasswordTokenModule],
 })
 export class UserModule {}

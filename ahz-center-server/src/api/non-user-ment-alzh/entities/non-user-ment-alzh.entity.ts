@@ -13,7 +13,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'user_name',
     nullable: true,
     type: 'text',
-    default: () => 'NULL',
+    default: null,
   })
   user_name: string;
 
@@ -21,7 +21,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'edad',
     nullable: true,
     type: 'int',
-    default: () => 'NULL',
+    default: null,
   })
   edad: number;
 
@@ -29,7 +29,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'sexo',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   sexo: string;
 
@@ -37,7 +37,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'orientacion_1',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   orientacion_1: number;
 
@@ -45,7 +45,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'orientacion_1_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   orientacion_1_time: string;
 
@@ -53,7 +53,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'orientacion_2',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   orientacion_2: number;
 
@@ -61,7 +61,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'orientacion_2_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   orientacion_2_time: string;
 
@@ -69,7 +69,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'fijacion',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   fijacion: number;
 
@@ -77,7 +77,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'fijacion_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   fijacion_time: string;
 
@@ -85,7 +85,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'lenguaje',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   lenguaje: number;
 
@@ -93,7 +93,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'lenguaje_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   lenguaje_time: string;
 
@@ -101,7 +101,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'calculo',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   calculo: number;
 
@@ -109,7 +109,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'calculo_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   calculo_time: string;
 
@@ -117,7 +117,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'memoria',
     type: 'int',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   memoria: number;
 
@@ -125,7 +125,7 @@ export class NonUserMentAlzh extends BaseEntity {
     name: 'memoria_time',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   memoria_time: string;
 

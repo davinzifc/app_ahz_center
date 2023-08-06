@@ -21,8 +21,10 @@ import { UserRoleDto } from './dto/user-role.dto';
 import { APP } from '../../shared/constants/info-api.const';
 import { EmailReaderUtile } from '../../shared/utils/email-reader.util';
 import { returnResponseDto } from '../../shared/globaldto/response.dto';
-import { Like } from 'typeorm';
+import { Like, MoreThanOrEqual } from 'typeorm';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
+import { GeneralFunctionsUtil } from '../../shared/utils/general-functions.util';
+import { GenderRepository } from './gender.repository';
 
 @Injectable()
 export class UserService {
@@ -37,14 +39,20 @@ export class UserService {
     private readonly _restorePasswordTokenService: RestorePasswordTokenService,
     private readonly _mailerService: MailerService,
     private readonly _emailReaderUtile: EmailReaderUtile,
+    private readonly _genderRepository: GenderRepository,
   ) {}
 
   async create(cu: CreateUserDto, user: UserToken): Promise<returnResponseDto> {
     try {
-      if (!this.validUser(cu)) {
+      const ignore = ['phone_number', 'identity_card'];
+      if (cu.is_application) ignore.push('password');
+      const vt = GeneralFunctionsUtil.validAttributes(cu, CreateUserDto, {
+        ignore: ignore,
+      });
+      if (!vt.validation) {
         throw this._responseHandler.throw({
           message: MessageStatus.User.BAD_REQUEST,
-          response: cu,
+          response: vt.attrError,
           status: HttpStatus.BAD_REQUEST,
         });
       }
@@ -154,6 +162,54 @@ export class UserService {
     }
   }
 
+  async updateUser(user: UserToken, edit_user_id: number, at: UpdateUserDto) {
+    try {
+      const resUser = await this._userRepository.findOne({
+        where: {
+          user_id: user.user_id,
+          is_active: true,
+        },
+        relations: {
+          user_by_role: true,
+        },
+      });
+
+      const editResUser = await this._userRepository.findOne({
+        where: {
+          user_id: edit_user_id,
+          is_active: true,
+        },
+      });
+
+      if (!resUser || !editResUser) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.NOT_FOUND,
+          response: {},
+          status: HttpStatus.NOT_FOUND,
+        });
+      }
+      console.log('at', !resUser.user_by_role.find((el) => el.role_id <= 2));
+      const setUserUpdate = GeneralFunctionsUtil.setObjectToUpdate(
+        UpdateUserDto,
+        at,
+        !resUser.user_by_role.find((el) => el.role_id <= 2)
+          ? ['identity_card', 'birthdate', 'email']
+          : [],
+      );
+      console.log(setUserUpdate);
+      await this._userRepository.update(editResUser.user_id, setUserUpdate);
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK_UPDATE(editResUser.user_id),
+          response: { ...editResUser, ...setUserUpdate },
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
   async updateAttribute(user: UserToken, at: UpdateAttributeDto) {
     try {
       const res = await this._userRepository.findOne({
@@ -256,6 +312,10 @@ export class UserService {
           'update_by',
           'updated_at',
           'is_active',
+          'birthdate',
+          'identity_card',
+          'phone_number',
+          'gender_id',
         ],
         where: {
           user_id: id,
@@ -265,6 +325,7 @@ export class UserService {
           user_by_role: {
             role: true,
           },
+          obj_gender: true,
         },
       });
 
@@ -393,6 +454,14 @@ export class UserService {
     }
   }
 
+  /**
+   *
+   * @param id
+   * @param updateUserDto
+   * @param user
+   * @returns
+   * @deprecated
+   */
   async update(
     id: number,
     updateUserDto: UpdateUserDto,
@@ -592,6 +661,67 @@ export class UserService {
         data: {
           message: MessageStatus.User.OK,
           response: users,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findUsersByRoleType(role_id: number, user: UserToken) {
+    try {
+      const roleActive = await this._userByRoleRepository.isValidRole(
+        user.user_id,
+      );
+      if (roleActive < role_id && roleActive !== 1) {
+        throw this._responseHandler.throw({
+          message: MessageStatus.User.UNAUTHORIZED,
+          response: {},
+          status: HttpStatus.UNAUTHORIZED,
+        });
+      }
+
+      const users = await this._userRepository.findAllUserByRoleId(role_id);
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK,
+          response: users,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findUsersByRoleActive(user: UserToken) {
+    try {
+      const roleActive = await this._userByRoleRepository.isValidRole(
+        user.user_id,
+      );
+      const users = await this._userRepository.findAllUserByActiveRole(
+        roleActive,
+      );
+      return this._responseHandler.dataReturn({
+        data: {
+          message: MessageStatus.User.OK,
+          response: users,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findAllGender() {
+    try {
+      const res = await this._genderRepository.find();
+      return this._responseHandler.dataReturn({
+        data: {
+          message: `Find all active genders`,
+          response: res,
           status: HttpStatus.OK,
         },
       });

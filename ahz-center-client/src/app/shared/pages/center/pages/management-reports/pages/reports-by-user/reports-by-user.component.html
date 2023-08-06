@@ -1,0 +1,52 @@
+<p-table
+  [value]="patientsList"
+  selectionMode="single"
+  [(selection)]="selectedPatient"
+  dataKey="user_id"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Code</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>E-mail</th>
+      <th>CC</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-patient>
+    <tr [pSelectableRow]="patient" (click)="getProcess()">
+      <td>{{ patient.user_id }}</td>
+      <td>{{ patient.first_name }}</td>
+      <td>{{ patient.last_name }}</td>
+      <td>{{ patient.email }}</td>
+      <td>
+        <i *ngIf="!patient?.identity_card">not provided</i>
+        <span *ngIf="patient?.identity_card">{{ patient.identity_card }}</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-divider></p-divider>
+<p-table
+  [value]="processList"
+  selectionMode="single"
+  [(selection)]="selectedProcess"
+  dataKey="process_type_user_id"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template *ngIf="selectedPatient" pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Process Name</th>
+      <th># of Process</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-process>
+    <tr [pSelectableRow]="process">
+      <td>{{ process.obj_process_type.process_type_id }}</td>
+      <td>{{ process.obj_process_type.process_type_name }}</td>
+      <td>{{ process.count }}</td>
+    </tr>
+  </ng-template>
+</p-table>

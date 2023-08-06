@@ -12,7 +12,7 @@ export class UserByRoleRepository extends Repository<UserByRole> {
     super(UserByRole, dataSource.createEntityManager());
   }
 
-  async isValidRole(userId: number): Promise<number>{
+  async isValidRole(userId: number): Promise<number> {
     const query = `
       select 
         min(ubr.role_id) max_role  
@@ -21,7 +21,13 @@ export class UserByRoleRepository extends Repository<UserByRole> {
         and ubr.is_active = true
       group by ubr.user_id;
     `;
-    const result: {max_role: number}[] = await this.query(query, [userId]);
-    return result?.length? result[0].max_role : null;
+    const result = this.query(query, [userId]) as Promise<
+      { max_role: number }[]
+    >;
+    return result
+      .then((res) => {
+        return res?.length ? res[0].max_role : null;
+      })
+      .catch((err) => null);
   }
 }

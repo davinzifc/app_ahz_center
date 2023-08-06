@@ -12,6 +12,7 @@ import { env } from 'process';
 import { JwtService } from '@nestjs/jwt';
 import { ResponseHandler } from '../handlers/response.handler';
 import { MessageStatus } from '../constants/message-status.const';
+import { UserToken } from '../globaldto/user-token.dto';
 
 @Injectable()
 export class JwtMiddleware implements NestMiddleware {
@@ -27,8 +28,12 @@ export class JwtMiddleware implements NestMiddleware {
   ): Promise<void> {
     try {
       const uToken = <string>req.headers['auth'];
+      const user: UserToken = <UserToken>(
+        JSON.parse(Buffer.from(uToken.split('.')[1], 'base64').toString())
+      );
       const uJwtPayload = await this._jwtService.verifyAsync(uToken, {
         secret: env.JWT_SECRETS,
+        ignoreExpiration: user.is_application,
       });
       next();
     } catch (error) {

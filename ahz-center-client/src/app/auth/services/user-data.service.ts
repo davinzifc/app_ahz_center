@@ -43,17 +43,29 @@ export class UserDataService {
     return validation;
   }
 
-  public async getUserData() {
+  public getUserData() {
     const token_data = localStorage.getItem('token');
     if (!token_data) return this.singOut();
-    const res = await (<Promise<ResponseInterface<User>>>(
-      lastValueFrom(this._connectionsService.GET_activeProfile(token_data))
-    ));
-    this.controller = {
-      user: res.response,
-      token: token_data,
-      roleId: this.getRoleUser(res.response.user_by_role),
-    };
+    const userStorage = localStorage.getItem('user');
+    if (userStorage) {
+      this.controller = {
+        user: JSON.parse(userStorage),
+        token: token_data,
+        roleId: this.getRoleUser(JSON.parse(userStorage).user_by_role),
+      };
+      return this.controller;
+    }
+
+    this._connectionsService.GET_activeProfile(token_data).subscribe({
+      next: (res: any) => {
+        this.controller = {
+          user: res.response,
+          token: token_data,
+          roleId: this.getRoleUser(res.response.user_by_role),
+        };
+      },
+    });
+
     return this.controller;
   }
 
@@ -67,6 +79,7 @@ export class UserDataService {
 
   public async storageManagement(user: User, token: string) {
     localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     return await this.getUserData();
   }
 

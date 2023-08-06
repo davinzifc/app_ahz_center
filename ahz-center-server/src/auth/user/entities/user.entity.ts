@@ -32,7 +32,7 @@ export class User extends BaseEntity {
     type: 'text',
     name: 'last_name',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   last_name!: string;
 
@@ -61,7 +61,7 @@ export class User extends BaseEntity {
     name: 'birthdate',
     type: 'timestamp',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   birthdate!: Date;
 
@@ -69,7 +69,7 @@ export class User extends BaseEntity {
     name: 'identity_card',
     type: 'bigint',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   identity_card!: number;
 
@@ -77,7 +77,7 @@ export class User extends BaseEntity {
     name: 'phone_number',
     type: 'bigint',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   phone_number!: number;
 
@@ -85,7 +85,7 @@ export class User extends BaseEntity {
     name: 'gender_id',
     type: 'bigint',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   gender_id!: number;
 

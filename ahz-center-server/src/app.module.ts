@@ -19,6 +19,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { env } from 'process';
 import { NonUserMentAlzhModule } from './api/non-user-ment-alzh/non-user-ment-alzh.module';
 import { MentAlzhModule } from './api/ment-alzh/ment-alzh.module';
+import { ProcessTypeUserModule } from './api/process-type-user/process-type-user.module';
+import { ProcessTypeModule } from './api/process-type/process-type.module';
+import { ManagementTicketsModule } from './api/management-tickets/management-tickets.module';
 
 @Module({
   imports: [
@@ -44,6 +47,9 @@ import { MentAlzhModule } from './api/ment-alzh/ment-alzh.module';
     Reflector,
     NonUserMentAlzhModule,
     MentAlzhModule,
+    ProcessTypeUserModule,
+    ProcessTypeModule,
+    ManagementTicketsModule,
   ],
   controllers: [AppController],
   providers: [

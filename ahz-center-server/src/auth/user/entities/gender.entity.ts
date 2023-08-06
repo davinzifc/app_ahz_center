@@ -20,7 +20,7 @@ export class Gender {
     name: 'description',
     type: 'text',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   description: string;
 

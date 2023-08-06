@@ -4,8 +4,10 @@
 
 ::ng-deep {
   #c-index {
+    overflow: hidden;
     p-card {
       .p-card {
+        overflow: auto;
         height: calc(100% - 16px);
       }
     }

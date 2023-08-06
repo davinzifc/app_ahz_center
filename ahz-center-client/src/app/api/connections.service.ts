@@ -46,4 +46,85 @@ export class ConnectionsService {
       this.options
     );
   }
+  PATCH_updateUser(user_id: number, updateData: any) {
+    this.updateOptions();
+    return this.http.patch(
+      `${environments.api_url}auth/user/${user_id}`,
+      updateData,
+      this.options
+    );
+  }
+
+  GET_process(user_id?: number, process_id?: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}api/process-type-user?user=${user_id}&process=${process_id}`,
+      this.options
+    );
+  }
+
+  GET_processSpecific(user_id?: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}api/process-type-user/specific?user=${user_id}`,
+      this.options
+    );
+  }
+
+  GET_processSpecificReport(process_id: number, user_id?: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}api/process-type-user/process/${process_id}?user=${user_id}`,
+      this.options
+    );
+  }
+
+  GET_restrictedUSers() {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}auth/user/restricted/report`,
+      this.options
+    );
+  }
+
+  GET_userById(user_id: any) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}auth/user/${user_id}`,
+      this.options
+    );
+  }
+
+  GET_genders() {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}auth/user/active/genders`,
+      this.options
+    );
+  }
+
+  POST_createUser(body: any) {
+    this.updateOptions();
+    return this.http.post(
+      `${environments.api_url}auth/user`,
+      body,
+      this.options
+    );
+  }
+
+  GET_roleByActiveRole() {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}auth/user-role/active/role`,
+      this.options
+    );
+  }
+
+  GET_usersRoleId(role_id: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}auth/user/role/${role_id}`,
+      this.options
+    );
+  }
 }

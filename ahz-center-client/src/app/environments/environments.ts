@@ -1,4 +1,4 @@
 export const environments = {
-  api_url: `http://localhost:3500/`,
+  api_url: `https://api.alzhcenter.com/`,
   is_production: false,
 };

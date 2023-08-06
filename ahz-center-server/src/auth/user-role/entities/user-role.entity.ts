@@ -21,7 +21,7 @@ export class UserRole {
     type: 'text',
     name: 'role_name',
     nullable: true,
-    default: () => 'NULL',
+    default: null,
   })
   role_name: string;
 

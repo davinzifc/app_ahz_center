@@ -9,13 +9,14 @@ import { UserDataService } from './auth/services/user-data.service';
 })
 export class AppComponent implements OnInit {
   title = 'ahz-center-client';
+  userLoaded: boolean = false;
   constructor(
     private primengConfig: PrimeNGConfig,
     private _userDataService: UserDataService
   ) {}
 
-  async ngOnInit() {
-    await this._userDataService.getUserData();
+  ngOnInit() {
+    this._userDataService.getUserData();
     this.primengConfig.zIndex = {
       modal: 2100,
       overlay: 1000,

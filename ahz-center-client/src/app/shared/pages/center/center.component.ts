@@ -31,7 +31,7 @@ export class CenterComponent implements OnInit {
     name: 'Profile',
     icon: 'pi pi-user',
     link: `profile/${this._userDataService.controller.user.user_id}`,
-    focus: true,
+    focus: false,
   };
   public userActive: User = new User();
   public ac_name: string = '';
@@ -40,19 +40,28 @@ export class CenterComponent implements OnInit {
   constructor(
     public _userDataService: UserDataService,
     private _connectionsService: ConnectionsService
-  ) {}
-
-  async ngOnInit() {
+  ) {
     if (
       this._userDataService.controller.user?.user_id &&
-      this._userDataService.controller.user.user_id <= 2
+      this._userDataService.controller.user.user_by_role.find(
+        (el) => el.role_id <= 4
+      )
     ) {
-      this.items.push({
-        name: 'Manage Reports',
-        icon: PrimeIcons.CHART_BAR,
-        link: `management-reports`,
-        focus: false,
-      });
+      this.items = [
+        ...this.items,
+        {
+          name: 'Manage Reports',
+          icon: PrimeIcons.CHART_BAR,
+          link: `management-reports`,
+          focus: false,
+        },
+        {
+          name: 'Manage Users',
+          icon: PrimeIcons.USERS,
+          link: `management-users`,
+          focus: false,
+        },
+      ];
     } else {
       this.items.push({
         name: 'My Reports',
@@ -61,6 +70,9 @@ export class CenterComponent implements OnInit {
         focus: false,
       });
     }
+  }
+
+  async ngOnInit() {
     /*await this._userDataService.getUserData();
     this.profile = {
       name: 'Profile',

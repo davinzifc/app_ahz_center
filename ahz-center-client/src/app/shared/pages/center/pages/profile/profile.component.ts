@@ -54,7 +54,6 @@ export class ProfileComponent implements OnInit {
       this.inputEditable[key] = !this.inputEditable[key];
     } else {
       const temp: any = this.user;
-      console.log({ [key]: temp[key] });
       this._connectionsService
         .PATCH_updateActiveProfile({
           [key]: temp[key],
