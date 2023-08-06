@@ -1,0 +1,23 @@
+.c-profile {
+  border: 1px solid #ced4da;
+  width: 100%;
+  height: auto;
+  padding: 1.25rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  #cp-personal-data {
+    .cppd-item-01 {
+      width: 15rem;
+      .pic-profile {
+        background-color: #ced4da;
+        border-radius: 6px;
+        height: 18rem;
+        font-size: 6rem;
+      }
+    }
+
+    .cppd-item-02 {
+      flex: auto;
+    }
+  }
+}

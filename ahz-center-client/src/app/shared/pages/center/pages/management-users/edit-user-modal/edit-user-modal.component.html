@@ -1,0 +1,138 @@
+<div class="cppd-item-02 mr-5">
+  <p-toast position="bottom-center"> </p-toast>
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+      <h3>Unsaved changes</h3>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="No"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        [style]="{ 'background-color': '#ef4444', border: '1px solid #ef4444' }"
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Yes"
+        (click)="cd.accept()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
+  <h2>Personal information</h2>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> First name </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="editableUser.first_name"
+        inputId="integeronly"
+        placeholder="First name"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Last name </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="editableUser.last_name"
+        inputId="integeronly"
+        placeholder="Last name"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> E-mail </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="editableUser.email"
+        inputId="integeronly"
+        placeholder="E-mail"
+        [readOnly]="!is_admin"
+      />
+    </div>
+    <small *ngIf="!is_admin"
+      >Only an administrator user can change these values.</small
+    >
+  </div>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Birthdate </label>
+    <div class="p-inputgroup">
+      <p-calendar
+        appendTo="body"
+        [disabled]="!is_admin"
+        [(ngModel)]="editableUser.birthdate"
+      ></p-calendar>
+    </div>
+    <small *ngIf="!is_admin"
+      >Only an administrator user can change these values.</small
+    >
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> CC </label>
+    <div class="p-inputgroup">
+      <p-inputNumber
+        [(ngModel)]="editableUser.identity_card"
+        inputId="integeronly"
+        placeholder="CC"
+        [readonly]="!is_admin"
+      >
+      </p-inputNumber>
+    </div>
+    <small *ngIf="!is_admin"
+      >Only an administrator user can change these values.</small
+    >
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Phone number </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="editableUser.phone_number"
+        placeholder="Phone number"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Gender </label>
+    <p-dropdown
+      [options]="gendersList"
+      [(ngModel)]="editableUser.gender_id"
+      optionLabel="name"
+      optionValue="gender_id"
+    ></p-dropdown>
+  </div>
+  <p-divider></p-divider>
+  <h2>Application information</h2>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> User type </label>
+    <div class="p-inputgroup">
+      <p-tag
+        [severity]="editableUser.is_application ? 'warning' : ''"
+        [value]="
+          editableUser.is_application ? 'Application user' : 'Natural user'
+        "
+      ></p-tag>
+    </div>
+    <small>The user type cannot be changed.</small>
+  </div>
+  <p-divider></p-divider>
+
+  <div class="flex flex-row-reverse">
+    <p-button label="Save" (click)="closeModal(false)"></p-button>
+    <p-button
+      styleClass="p-button-warning"
+      ngClass="mr-2"
+      label="Cancel"
+      (click)="closeModal(true)"
+    ></p-button>
+  </div>
+</div>

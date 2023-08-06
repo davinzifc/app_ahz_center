@@ -1,0 +1,16 @@
+::ng-deep {
+  #content-menu-index {
+    overflow: hidden;
+    transition: all 0.5s ease;
+    div {
+      .p-card-body {
+        padding: 0.2rem 1rem !important;
+      }
+    }
+  }
+}
+
+.item-menu:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+  border-radius: 6px;
+}

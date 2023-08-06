@@ -1,0 +1,16 @@
+<div id="parent-index" class="flex w-full h-full">
+  <div class="w-16rem">
+    <app-content-menu
+      [menuItems]="items"
+      [user]="this.userActive"
+      [av_name]="ac_name"
+      [av_last_name]="ac_last_name"
+      [itemMenu]="profile"
+    ></app-content-menu>
+  </div>
+  <div id="c-index" class="w-full h-full">
+    <p-card styleClass="m-2">
+      <router-outlet></router-outlet>
+    </p-card>
+  </div>
+</div>

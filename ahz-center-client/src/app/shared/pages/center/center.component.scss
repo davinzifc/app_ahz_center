@@ -1,0 +1,19 @@
+::ng-deep .p-panelmenu .p-panelmenu-header > a {
+  padding: 1rem;
+}
+
+::ng-deep {
+  #c-index {
+    overflow: hidden;
+    p-card {
+      .p-card {
+        overflow: auto;
+        height: calc(100% - 16px);
+      }
+    }
+  }
+}
+
+#parent-index {
+  background-color: #e9e9e9;
+}

@@ -1,0 +1,83 @@
+<p-table
+  #Process
+  [value]="processList"
+  selectionMode="single"
+  [(selection)]="selectProcess"
+  dataKey="ID"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [scrollable]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Process Name</th>
+      <th># of Process</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-process>
+    <tr [pSelectableRow]="process" (click)="getReportProcess()">
+      <td>{{ process.obj_process_type.process_type_id }}</td>
+      <td>{{ process.obj_process_type.process_type_name }}</td>
+      <td>{{ process.count }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-divider></p-divider>
+<p-table
+  #Reports
+  *ngIf="!!selectProcess"
+  selectionMode="single"
+  [value]="reportList"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [scrollable]="true"
+  scrollHeight="400px"
+  [(selection)]="selectSubProcess"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-file-excel"
+        (click)="exportXlsx()"
+        class="p-button-success mr-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        [ngStyle]="{ 'min-width': column == '#' ? '70px' : '170px' }"
+        *ngFor="let column of columnReport?.title"
+      >
+        {{ column }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-report>
+    <tr>
+      <ng-container *ngFor="let column of columnReport?.attr">
+        <td
+          [pSelectableRow]="report"
+          (click)="isShowMore ? updateChar() : null"
+        >
+          {{ report[column] }}
+        </td>
+      </ng-container>
+    </tr>
+  </ng-template>
+</p-table>
+<div class="cont-btn-show">
+  <p-button
+    *ngIf="!!selectProcess"
+    [label]="isShowMore ? 'Show less' : 'Show more'"
+    (click)="showChar()"
+  ></p-button>
+</div>
+<div class="card" *ngIf="!!isShowMore">
+  <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+</div>
+<h1 class="no-data" *ngIf="!selectProcess">There is no selected process</h1>

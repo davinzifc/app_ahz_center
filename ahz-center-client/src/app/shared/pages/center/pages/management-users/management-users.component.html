@@ -1,0 +1,74 @@
+<p-toast *ngIf="!modalOpened" position="bottom-right"></p-toast>
+<p-table
+  #dt2
+  [value]="_managementUserService.userManagementList"
+  selectionMode="single"
+  [(selection)]="selectedUser"
+  dataKey="code"
+  [globalFilterFields]="['first_name', 'last_name', 'email', 'user_id']"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <p-button
+        styleClass="p-button-sm"
+        (click)="createUser()"
+        icon="pi pi-user-plus"
+      ></p-button>
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="dt2.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Search keyword"
+        />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="user_id">
+        Code <p-sortIcon field="user_id"></p-sortIcon>
+      </th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>CC</th>
+      <th>Email</th>
+      <th>Phone number</th>
+      <th>User type</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr [pSelectableRow]="selectedUser">
+      <td>
+        {{ user.user_id }}
+      </td>
+      <td>{{ user.first_name }}</td>
+      <td>{{ user.last_name }}</td>
+      <td>
+        <i *ngIf="!user?.identity_card">not provided</i>
+        <span *ngIf="user?.identity_card">{{ user.identity_card }}</span>
+      </td>
+      <td>{{ user.email }}</td>
+      <td>
+        <i *ngIf="!user?.phone_number">not provided</i>
+        <span *ngIf="user?.phone_number">{{ user.phone_number }}</span>
+      </td>
+      <td>
+        <p-tag
+          [severity]="user.is_application ? 'warning' : ''"
+          [value]="user.is_application ? 'Application user' : 'Natural user'"
+        ></p-tag>
+      </td>
+      <td>
+        <p-button
+          styleClass="p-button-sm"
+          (click)="show(user)"
+          icon="pi pi-pencil"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

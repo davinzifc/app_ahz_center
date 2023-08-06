@@ -1,0 +1,140 @@
+<div class="cppd-item-02 mr-5">
+  <p-toast position="bottom-center"> </p-toast>
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+      <h3>Unsaved changes</h3>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="No"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        [style]="{ 'background-color': '#ef4444', border: '1px solid #ef4444' }"
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Yes"
+        (click)="cd.accept()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
+  <h2>Personal information</h2>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> First name </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="newUser.first_name"
+        inputId="integeronly"
+        placeholder="First name"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Last name </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="newUser.last_name"
+        inputId="integeronly"
+        placeholder="Last name"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> E-mail </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="newUser.email"
+        inputId="integeronly"
+        placeholder="E-mail"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Birthdate </label>
+    <div class="p-inputgroup">
+      <p-calendar appendTo="body" [(ngModel)]="newUser.birthdate"></p-calendar>
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> CC </label>
+    <div class="p-inputgroup">
+      <p-inputNumber
+        [(ngModel)]="newUser.identity_card"
+        inputId="integeronly"
+        placeholder="CC"
+      >
+      </p-inputNumber>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Phone number </label>
+    <div class="p-inputgroup">
+      <input
+        pInputText
+        [(ngModel)]="newUser.phone_number"
+        placeholder="Phone number"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Gender </label>
+    <p-dropdown
+      [options]="gendersList"
+      [(ngModel)]="newUser.gender_id"
+      optionLabel="name"
+      optionValue="gender_id"
+    ></p-dropdown>
+  </div>
+
+  <p-divider></p-divider>
+  <h2>Application information</h2>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> User type </label>
+    <p-tag
+      [severity]="newUser.is_application ? 'warning' : ''"
+      [value]="newUser.is_application ? 'Application user' : 'Natural user'"
+    ></p-tag>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Password </label>
+    <p-password
+      [(ngModel)]="newUser.password"
+      [toggleMask]="true"
+      placeholder="Password"
+    ></p-password>
+  </div>
+  <div class="flex flex-column gap-2 mb-2">
+    <label class="font-bold block"> Role </label>
+    <p-dropdown
+      [options]="rolesList"
+      [(ngModel)]="newUser.user_role_id"
+      optionLabel="role_name"
+      optionValue="user_role_id"
+      (ngModelChange)="onRoleChange($event)"
+    ></p-dropdown>
+  </div>
+  <p-divider></p-divider>
+
+  <div class="flex flex-row-reverse">
+    <p-button label="Save" (click)="closeModal(false)"></p-button>
+    <p-button
+      styleClass="p-button-warning"
+      ngClass="mr-2"
+      label="Cancel"
+      (click)="closeModal(true)"
+    ></p-button>
+  </div>
+</div>
+<div *ngIf="waiting" class="saving-progress">
+  <p-progressSpinner></p-progressSpinner>
+</div>

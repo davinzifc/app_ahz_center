@@ -1,0 +1,154 @@
+<div class="c-profile">
+  <p-toast position="bottom-right"></p-toast>
+  <div id="cp-personal-data" class="w-full flex flex-row flex-wrap">
+    <div class="cppd-item-01 mr-3">
+      <div
+        class="pic-profile w-full mb-3 flex justify-content-center align-items-center"
+      >
+        <span>DF</span>
+      </div>
+      <p-tag
+        [value]="user.user_by_role ? user.user_by_role[0].role.role_name : ''"
+        [style]="{ width: '100%' }"
+      ></p-tag>
+    </div>
+    <div class="cppd-item-02 mr-5">
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> First name </label>
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            [readonly]="true"
+            [ngModel]="user.first_name"
+            placeholder="First name"
+          />
+        </div>
+      </div>
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Last name </label>
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            [readonly]="true"
+            [ngModel]="user.last_name"
+            placeholder="Last name"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> CC </label>
+        <div class="p-inputgroup">
+          <p-inputNumber
+            [(ngModel)]="user.identity_card"
+            inputId="integeronly"
+            [readonly]="inputEditable.identity_card"
+            placeholder="CC"
+          >
+          </p-inputNumber>
+          <button
+            *ngIf="
+              !preValidInput?.identity_card ||
+              _userDataService.controller.roleId == 1
+            "
+            type="button"
+            pButton
+            [icon]="inputEditable.identity_card ? 'pi pi-pencil' : 'pi pi-save'"
+            styleClass="p-button-warn"
+            (click)="toggleFunction('identity_card')"
+          ></button>
+        </div>
+      </div>
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Birthdate </label>
+        <div class="p-inputgroup">
+          <input
+            [ngModel]="user.birthdate | date : 'longDate'"
+            type="text"
+            pInputText
+            [readonly]="true"
+            placeholder="Birthdate"
+          />
+          <span class="p-inputgroup-addon">{{ age }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Gender </label>
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            [readonly]="true"
+            placeholder="Gender"
+            [ngModel]="user.obj_gender.name"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="cppd-item-02">
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Mobile number </label>
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="Mobile number"
+            [readOnly]="inputEditable.phone_number"
+            [(ngModel)]="user.phone_number"
+          />
+          <button
+            type="button"
+            pButton
+            [icon]="inputEditable.phone_number ? 'pi pi-pencil' : 'pi pi-save'"
+            styleClass="p-button-warn "
+            (click)="toggleFunction('phone_number')"
+          ></button>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Integer </label>
+        <div class="p-inputgroup">
+          <input type="text" pInputText placeholder="Keyword" />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-pencil"
+            styleClass="p-button-warn"
+          ></button>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Integer </label>
+        <div class="p-inputgroup">
+          <input type="text" pInputText placeholder="Keyword" />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-pencil"
+            styleClass="p-button-warn"
+          ></button>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 mb-2">
+        <label class="font-bold block"> Integer </label>
+        <div class="p-inputgroup">
+          <input type="text" pInputText placeholder="Keyword" />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-pencil"
+            styleClass="p-button-warn"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="c-profile">s</div>
+<div class="c-profile">s</div>
