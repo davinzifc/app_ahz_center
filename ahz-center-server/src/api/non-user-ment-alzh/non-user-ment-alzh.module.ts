@@ -6,6 +6,7 @@ import { ResponseHandler } from '../../shared/handlers/response.handler';
 import { NonUserMentAlzhRepository } from './non-user-ment-alzh.repository';
 import { UserRepository } from '../../auth/user/user.repository';
 import { UserByRoleRepository } from '../../auth/user-by-role/user-by-role.repository';
+import { MentAlzhRepository } from '../ment-alzh/ment-alzh.repository';
 
 @Module({
   controllers: [NonUserMentAlzhController],
@@ -16,6 +17,7 @@ import { UserByRoleRepository } from '../../auth/user-by-role/user-by-role.repos
     NonUserMentAlzhRepository,
     UserRepository,
     UserByRoleRepository,
+    MentAlzhRepository,
   ],
 })
 export class NonUserMentAlzhModule {}

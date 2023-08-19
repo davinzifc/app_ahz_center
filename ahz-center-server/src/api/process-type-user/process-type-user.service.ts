@@ -7,15 +7,69 @@ import { GeneralFunctionsUtil } from '../../shared/utils/general-functions.util'
 import { UserToken } from '../../shared/globaldto/user-token.dto';
 import { ProcessTypeRepository } from '../process-type/process-type.repository';
 import { UserByRoleRepository } from '../../auth/user-by-role/user-by-role.repository';
+import { Test01AlzhRepository } from '../tests/test_01_alzh/test_01_alzh.repository';
+import { NonUserMentAlzhRepository } from '../non-user-ment-alzh/non-user-ment-alzh.repository';
+import { ProcessTypeEnum } from '../../shared/constants/enum.const';
+import { IsNull } from 'typeorm';
 
 @Injectable()
 export class ProcessTypeUserService {
   constructor(
     private readonly _responseHandler: ResponseHandler,
+    private readonly _test01AlzhRepository: Test01AlzhRepository,
+    private readonly _nonUserMentAlzhRepository: NonUserMentAlzhRepository,
     private readonly _processTypeUserRepository: ProcessTypeUserRepository,
     private readonly _processTypeRepository: ProcessTypeRepository,
     private readonly _userByRoleRepository: UserByRoleRepository,
   ) {}
+
+  async findReportdsByProcessType(process_type_id: ProcessTypeEnum) {
+    try {
+      let res: any = null;
+      const pt = await this._processTypeRepository.findOne({
+        where: {
+          process_type_id: process_type_id,
+        },
+      });
+
+      if (!pt) {
+        throw this._responseHandler.throw({
+          message: 'Process type not exist',
+          response: null,
+          status: HttpStatus.BAD_REQUEST,
+        });
+      }
+
+      switch (pt.process_type_id) {
+        case ProcessTypeEnum.NON_USER_MENT_ALZH:
+          res = await this._nonUserMentAlzhRepository.find({
+            where: {
+              is_assigned: false,
+              is_active: true,
+            },
+          });
+          break;
+        case ProcessTypeEnum.TEST_01_ALZH:
+          res = await this._test01AlzhRepository.find({
+            where: {
+              user_id: IsNull(),
+              is_active: true,
+            },
+          });
+          break;
+      }
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: 'Process type user list',
+          response: res,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
 
   async create(
     createProcessTypeUserDto: CreateProcessTypeUserDto,
@@ -135,6 +189,31 @@ export class ProcessTypeUserService {
         el['count'] = count[el.obj_process_type.table_related];
         delete el.obj_process_type.table_related;
       });
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: 'Process type user list',
+          response: res,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findAllPendingReportsByProcess(process_type_id: number) {
+    try {
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
+  }
+
+  async findInProcessDataByUser(user_id: number) {
+    try {
+      const res = await this._processTypeUserRepository.findInProcessDataByUser(
+        user_id,
+      );
 
       return this._responseHandler.dataReturn({
         data: {

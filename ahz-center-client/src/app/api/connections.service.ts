@@ -127,4 +127,47 @@ export class ConnectionsService {
       this.options
     );
   }
+
+  GET_findInProcessDataByUser(user_id: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}api/process-type-user/active/user/${user_id}`,
+      this.options
+    );
+  }
+
+  GET_findRecordsPendingByUserAssignment(process_type_id: number) {
+    this.updateOptions();
+    return this.http.get(
+      `${environments.api_url}api/process-type-user/no-assignment/reports/process/${process_type_id}`,
+      this.options
+    );
+  }
+
+  POST_createProcessByUser(body: any) {
+    this.updateOptions();
+    return this.http.post(
+      `${environments.api_url}api/process-type-user`,
+      body,
+      this.options
+    );
+  }
+
+  PATCH_Test_01_link(data_id: any, user_id: any) {
+    this.updateOptions();
+    return this.http.patch(
+      `${environments.api_url}api/test-01-alzh/link-data/${data_id}/user/${user_id}`,
+      null,
+      this.options
+    );
+  }
+
+  PATCH_Ment_alzh_link(data_id: any, user_id: any) {
+    this.updateOptions();
+    return this.http.patch(
+      `${environments.api_url}api/non-user-ment-alzh/link-data/${data_id}/user/${user_id}`,
+      null,
+      this.options
+    );
+  }
 }

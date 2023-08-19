@@ -20,6 +20,15 @@ export const center_routes: AzhRoutes = {
     import('./shared/pages/center/center.module').then((c) => c.CenterModule),
 };
 
+export const legalRoutes: AzhRoutes = {
+  name: 'Legal',
+  path: 'legal/terms-and-conditions',
+  loadChildren: () =>
+    import(
+      './shared/pages/legal/terms-conditions/terms-conditions.module'
+    ).then((c) => c.TermsConditionsModule),
+};
+
 export const management_users_reports: AzhRoutes[] = [
   {
     name: 'Reports by user',
@@ -36,6 +45,12 @@ export const management_users_reports: AzhRoutes[] = [
       import(
         './shared/pages/center/pages/management-reports/pages/assign-reports-to-user/assign-reports-to-user.module'
       ).then((m) => m.AssignReportsToUserModule),
+  },
+  {
+    name: '',
+    path: '**',
+    redirectTo: '/center/management-reports/reports-by-user',
+    pathMatch: 'full',
   },
 ];
 
@@ -116,6 +131,7 @@ export const AppRouts: AzhRoutes[] = [
   login_route,
   center_routes,
   default_login_route,
+  legalRoutes,
 ];
 
 export interface AzhRoutes extends Route {

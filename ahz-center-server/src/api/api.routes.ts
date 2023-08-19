@@ -4,6 +4,7 @@ import { MentAlzhModule } from './ment-alzh/ment-alzh.module';
 import { ProcessTypeModule } from './process-type/process-type.module';
 import { ProcessTypeUserModule } from './process-type-user/process-type-user.module';
 import { ManagementTicketsModule } from './management-tickets/management-tickets.module';
+import { Test01AlzhModule } from './tests/test_01_alzh/test_01_alzh.module';
 
 export const ApiRoutes: Routes = [
   {
@@ -25,5 +26,9 @@ export const ApiRoutes: Routes = [
   {
     path: 'management-tickets',
     module: ManagementTicketsModule,
+  },
+  {
+    path: 'test-01-alzh',
+    module: Test01AlzhModule,
   },
 ];

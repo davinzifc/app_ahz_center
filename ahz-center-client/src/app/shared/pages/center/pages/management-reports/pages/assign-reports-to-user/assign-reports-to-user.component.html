@@ -1,1 +1,129 @@
-<p>assign-reports-to-user works!</p>
+<p-toast position="bottom-right"></p-toast>
+<p-table
+  [value]="patientsList"
+  selectionMode="single"
+  [(selection)]="selectedPatient"
+  dataKey="user_id"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Code</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>E-mail</th>
+      <th>CC</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-patient>
+    <tr [pSelectableRow]="patient" (click)="getProcess()">
+      <td>{{ patient.user_id }}</td>
+      <td>{{ patient.first_name }}</td>
+      <td>{{ patient.last_name }}</td>
+      <td>{{ patient.email }}</td>
+      <td>
+        <i *ngIf="!patient?.identity_card">not provided</i>
+        <span *ngIf="patient?.identity_card">{{ patient.identity_card }}</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-divider *ngIf="selectedPatient"></p-divider>
+<p-table
+  [value]="processList"
+  selectionMode="single"
+  [(selection)]="selectedProcess"
+  dataKey="process_type_id"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  *ngIf="selectedPatient"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Code</th>
+      <th>Process Name</th>
+      <th>Process Description</th>
+      <th>In Process</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-process>
+    <tr [pSelectableRow]="process" (click)="findRecordsPendingToAssign()">
+      <td>{{ process.process_type_id }}</td>
+      <td>{{ process.process_type_name }}</td>
+      <td>{{ process.process_type_description }}</td>
+      <td>
+        <p-tag
+          *ngIf="process?.in_progress"
+          severity="success"
+          value="Enabled"
+        ></p-tag>
+        <p-button
+          *ngIf="!process?.in_progress"
+          styleClass="p-button-sm"
+          icon="pi pi-link"
+          (click)="createProcessByUser(process)"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-divider></p-divider>
+<p-table
+  #Reports
+  *ngIf="!!selectedProcess && is_in_process"
+  selectionMode="single"
+  [value]="reportList"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [scrollable]="true"
+  scrollHeight="400px"
+  [(selection)]="selectSubProcess"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-file-excel"
+        (click)="exportXlsx()"
+        class="p-button-success mr-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Link</th>
+      <th
+        [ngStyle]="{ 'min-width': column == '#' ? '70px' : '170px' }"
+        *ngFor="let column of columnReport?.title"
+      >
+        {{ column }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-report>
+    <tr>
+      <td>
+        <p-button
+          icon="pi pi-link"
+          (click)="linkData(report)"
+          styleClass="p-button-rounded p-button-outlined"
+        ></p-button>
+      </td>
+      <ng-container *ngFor="let column of columnReport?.attr">
+        <td [pSelectableRow]="report">
+          {{ report[column] }}
+        </td>
+      </ng-container>
+    </tr>
+  </ng-template>
+</p-table>
+
+<div class="content-no-link" *ngIf="is_in_process === false">
+  <h2>This user is currently not in this process</h2>
+  <p>
+    To start a process with this user you must link
+    <i class="link-btn pi pi-link"></i> it
+  </p>
+</div>

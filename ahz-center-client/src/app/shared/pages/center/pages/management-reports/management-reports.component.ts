@@ -25,9 +25,9 @@ export class ManagementReportsComponent implements OnInit {
         link: 'assing-reports',
       },
     ];
-
-    this.activeItem = this.items[0];
-    this.router.navigate([this.activeItem.link], { relativeTo: this.route });
+    this.activeItem = this.items.find((el) =>
+      this.router.url.includes(el.link)
+    );
   }
 
   onActiveItemChange(event: any) {

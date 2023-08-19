@@ -27,15 +27,16 @@
     </tr>
   </ng-template>
 </p-table>
-<p-divider></p-divider>
+<p-divider *ngIf="selectedPatient"></p-divider>
 <p-table
   [value]="processList"
   selectionMode="single"
   [(selection)]="selectedProcess"
   dataKey="process_type_user_id"
   [tableStyle]="{ 'min-width': '50rem' }"
+  *ngIf="selectedPatient"
 >
-  <ng-template *ngIf="selectedPatient" pTemplate="header">
+  <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
       <th>Process Name</th>
@@ -43,10 +44,55 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-process>
-    <tr [pSelectableRow]="process">
+    <tr [pSelectableRow]="process" (click)="getReportProcess()">
       <td>{{ process.obj_process_type.process_type_id }}</td>
       <td>{{ process.obj_process_type.process_type_name }}</td>
       <td>{{ process.count }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-divider *ngIf="!!selectedProcess"></p-divider>
+<p-table
+  #Reports
+  *ngIf="!!selectedProcess"
+  selectionMode="single"
+  [value]="reportList"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [scrollable]="true"
+  scrollHeight="400px"
+  [(selection)]="selectSubProcess"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-file-excel"
+        (click)="exportXlsx()"
+        class="p-button-success mr-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        [ngStyle]="{ 'min-width': column == '#' ? '70px' : '170px' }"
+        *ngFor="let column of columnReport?.title"
+      >
+        {{ column }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-report>
+    <tr>
+      <ng-container *ngFor="let column of columnReport?.attr">
+        <td [pSelectableRow]="report">
+          {{ report[column] }}
+        </td>
+      </ng-container>
     </tr>
   </ng-template>
 </p-table>
