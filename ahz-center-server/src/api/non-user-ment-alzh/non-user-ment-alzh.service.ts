@@ -9,6 +9,8 @@ import { Like } from 'typeorm';
 import { NonUserMentAlzhRepository } from './non-user-ment-alzh.repository';
 import { MessageStatus } from '../../shared/constants/message-status.const';
 import { test_data } from '../../shared/constants/test-data.const';
+import { UserToken } from '../../shared/globaldto/user-token.dto';
+import { MentAlzhRepository } from '../ment-alzh/ment-alzh.repository';
 
 @Injectable()
 export class NonUserMentAlzhService {
@@ -18,6 +20,7 @@ export class NonUserMentAlzhService {
     private readonly _responseHandler: ResponseHandler,
     private readonly _userRepository: UserRepository,
     private readonly _nonUserMentAlzhRepository: NonUserMentAlzhRepository,
+    private readonly _mentAlzhRepository: MentAlzhRepository,
   ) {}
 
   create(createNonUserMentAlzhDto: CreateNonUserMentAlzhDto) {
@@ -151,5 +154,64 @@ export class NonUserMentAlzhService {
     newData.memoria = processArray[10][0];
     newData.memoria_time = processArray[10][1];
     return newData;
+  }
+
+  async linkDataByUserId(user_id: number, data_id: number, user: UserToken) {
+    try {
+      const data = await this._nonUserMentAlzhRepository.findOne({
+        where: {
+          non_user_ment_alzh_id: data_id,
+        },
+      });
+
+      if (!data) {
+        throw this._responseHandler.throw({
+          message: 'Data not exist',
+          response: null,
+          status: HttpStatus.BAD_REQUEST,
+        });
+      }
+
+      if (data?.is_assigned) {
+        throw this._responseHandler.throw({
+          message: 'Data already linked',
+          response: null,
+          status: HttpStatus.BAD_REQUEST,
+        });
+      }
+
+      const res = await this._mentAlzhRepository.save({
+        user_id: user_id,
+        fijacion: data.fijacion,
+        fijacion_time: data.fijacion_time,
+        lenguaje: data.lenguaje,
+        lenguaje_time: data.lenguaje_time,
+        memoria: data.memoria,
+        memoria_time: data.memoria_time,
+        orientacion_1: data.orientacion_1,
+        orientacion_1_time: data.orientacion_1_time,
+        orientacion_2: data.orientacion_2,
+        orientacion_2_time: data.orientacion_2_time,
+        calculo: data.calculo,
+        calculo_time: data.calculo_time,
+        created_by: user.user_id,
+        non_user_ment_alzh_id: data.non_user_ment_alzh_id,
+      });
+
+      await this._nonUserMentAlzhRepository.update(data.non_user_ment_alzh_id, {
+        is_assigned: true,
+        update_by: user.user_id,
+      });
+
+      return this._responseHandler.dataReturn({
+        data: {
+          message: 'Data linked successfully',
+          response: res,
+          status: HttpStatus.OK,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
   }
 }

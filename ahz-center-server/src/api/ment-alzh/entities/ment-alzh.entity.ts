@@ -30,7 +30,7 @@ export class MentAlzh extends BaseEntity {
     nullable: true,
     default: null,
   })
-  orientacion: number;
+  orientacion_1: number;
 
   @Column({
     name: 'orientacion_1_time',
@@ -123,7 +123,7 @@ export class MentAlzh extends BaseEntity {
   @Column({
     name: 'non_user_ment_alzh_id',
     type: 'bigint',
-    nullable: false,
+    nullable: true,
   })
   non_user_ment_alzh_id: number;
 

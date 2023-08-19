@@ -65,6 +65,16 @@ export class ProcessTypeUserController {
     return this.processTypeUserService.findOne(+id);
   }
 
+  @Get('active/user/:id')
+  findInProcessDataByUser(@Param('id') id: string) {
+    return this.processTypeUserService.findInProcessDataByUser(+id);
+  }
+
+  @Get('no-assignment/reports/process/:processId')
+  findRecordsPendingByUserAssignment(@Param('processId') processId: string) {
+    return this.processTypeUserService.findReportdsByProcessType(+processId);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.processTypeUserService.remove(+id);

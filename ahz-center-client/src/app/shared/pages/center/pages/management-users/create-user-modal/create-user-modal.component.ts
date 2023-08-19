@@ -83,7 +83,6 @@ export class CreateUserModalComponent implements OnInit {
         },
       });
     } else {
-      console.log('Entro esta mierda');
       if (this.integrity === btoa(JSON.stringify(this.newUser))) {
         this._ref.close(null);
       } else {

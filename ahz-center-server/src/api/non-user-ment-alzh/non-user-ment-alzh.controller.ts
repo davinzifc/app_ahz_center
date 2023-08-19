@@ -17,6 +17,8 @@ import { ErrorHandler } from '../../shared/handlers/error.handler';
 import { ResponseInterceptor } from '../../shared/interceptors/response.interseptor';
 import { Roles } from '../../shared/decorators/role.decorator';
 import { ValidRoleGuard } from '../../shared/guards/valid-role.guard';
+import { UserJWT } from '../../shared/decorators/user-token.decorator';
+import { UserToken } from '../../shared/globaldto/user-token.dto';
 
 @Controller()
 @UseFilters(new ErrorHandler())
@@ -64,5 +66,18 @@ export class NonUserMentAlzhController {
   @Get('pending/no-assigned')
   getPendingNoAssigned() {
     return this.nonUserMentAlzhService.getPendingNoAssigned();
+  }
+
+  @Patch('link-data/:data_id/user/:user_id')
+  linkDataByUserId(
+    @Param('user_id') user_id: string,
+    @Param('data_id') data_id: string,
+    @UserJWT() userToken: UserToken,
+  ) {
+    return this.nonUserMentAlzhService.linkDataByUserId(
+      +user_id,
+      +data_id,
+      userToken,
+    );
   }
 }

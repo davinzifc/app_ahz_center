@@ -22,6 +22,7 @@ import { MentAlzhModule } from './api/ment-alzh/ment-alzh.module';
 import { ProcessTypeUserModule } from './api/process-type-user/process-type-user.module';
 import { ProcessTypeModule } from './api/process-type/process-type.module';
 import { ManagementTicketsModule } from './api/management-tickets/management-tickets.module';
+import { Test01AlzhModule } from './api/tests/test_01_alzh/test_01_alzh.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ManagementTicketsModule } from './api/management-tickets/management-tic
     ProcessTypeUserModule,
     ProcessTypeModule,
     ManagementTicketsModule,
+    Test01AlzhModule,
   ],
   controllers: [AppController],
   providers: [

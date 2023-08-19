@@ -1,6 +1,11 @@
 import * as FileSaver from 'file-saver';
 
 export module ColumnsUtils {
+  export enum ProcessEnum {
+    MENTAL_HEALTH = 1,
+    TEST_01 = 2,
+  }
+
   export const ColumnIgnore: ColumnIgnore = {
     GlOBAL: [
       'created_at',
@@ -8,11 +13,16 @@ export module ColumnsUtils {
       'updated_at',
       'updated_by',
       'is_active',
+      'update_by',
     ],
     CUSTOM: {
       1: {
         body: ['user_id', 'non_user_ment_alzh_id'],
         id: 'ment_alzh_id',
+      },
+      2: {
+        body: ['user_id'],
+        id: 'test_01_alzh_id',
       },
     },
   };

@@ -6,6 +6,7 @@ import { ResponseInterface } from '../../interfaces/response.interface';
 import { OkUserResponse } from '../../../auth/interface/ok-user-response.interface';
 import { User } from '../../../auth/interface/user.dto';
 import { MenuInterface } from '../../interfaces/menu.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-center',
@@ -39,7 +40,8 @@ export class CenterComponent implements OnInit {
 
   constructor(
     public _userDataService: UserDataService,
-    private _connectionsService: ConnectionsService
+    private _connectionsService: ConnectionsService,
+    private router: Router
   ) {
     if (
       this._userDataService.controller.user?.user_id &&
@@ -98,5 +100,13 @@ export class CenterComponent implements OnInit {
             : `${this.ac_name}${this.userActive?.last_name[0]}`;
       },
     });
+
+    this.items.forEach((el) => {
+      if (this.router.url.includes(el.link)) {
+        el.focus = true;
+      }
+    });
+
+    this.profile.focus = this.router.url.includes(this.profile.link);
   }
 }

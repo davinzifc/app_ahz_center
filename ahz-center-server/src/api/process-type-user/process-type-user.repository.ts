@@ -29,6 +29,20 @@ export class ProcessTypeUserRepository extends Repository<ProcessTypeUser> {
     }
   }
 
+  findInProcessDataByUser(user_id: number) {
+    const query = `
+    SELECT pt.*, IF(ptu.process_type_user_id IS NULL, FALSE, TRUE) AS in_progress
+    FROM process_type pt 
+    	LEFT JOIN process_type_user ptu ON ptu.process_type_id = pt.process_type_id 
+    									AND ptu.user_id = ?
+    									AND ptu.is_active > 0
+    `;
+
+    return this.query(query, [user_id])
+      .then((res) => res)
+      .catch((err) => []);
+  }
+
   async finDataReportAnyProcess(table_related: string, user_id: number) {
     try {
       const query = `

@@ -10,3 +10,8 @@ export enum UserAttributesEnum {
   PHONE_NUMBER = 'phone_number',
   GENDER_ID = 'gender_id',
 }
+
+export enum ProcessTypeEnum {
+  NON_USER_MENT_ALZH = 1,
+  TEST_01_ALZH = 2,
+}
