@@ -36,7 +36,6 @@ import { TabMenuModule } from 'primeng/tabmenu';
     MessagesModule,
     BadgeModule,
     ToastModule,
-    MessagesModule,
     DropdownModule,
     ConfirmPopupModule,
     ConfirmDialogModule,

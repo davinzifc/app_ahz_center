@@ -14,6 +14,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
+import { ComingSoonModule } from '../../../../components/coming-soon/coming-soon.module';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -31,6 +32,7 @@ import { MessagesModule } from 'primeng/messages';
     InputMaskModule,
     ToastModule,
     MessagesModule,
+    ComingSoonModule,
   ],
 })
 export class ProfileModule {}

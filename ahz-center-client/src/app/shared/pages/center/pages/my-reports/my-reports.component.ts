@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConnectionsService } from '../../../../../api/connections.service';
 import { UserDataService } from '../../../../../auth/services/user-data.service';
 import { ColumnsUtils } from '../../../../../utils/format-columns.utils';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-my-reports',
@@ -22,6 +23,13 @@ export class MyReportsComponent implements OnInit {
   public isShowMore: boolean = false;
   public data: any;
   public options: any;
+  public messages: Message[] = [
+    {
+      severity: 'info',
+      summary: 'Info',
+      detail: 'For each table, click on the row you want to interact with.',
+    },
+  ];
 
   constructor(
     private _connectionsService: ConnectionsService,

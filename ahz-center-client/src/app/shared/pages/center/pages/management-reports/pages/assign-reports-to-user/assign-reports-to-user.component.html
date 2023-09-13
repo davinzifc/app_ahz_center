@@ -1,4 +1,11 @@
 <p-toast position="bottom-right"></p-toast>
+<div class="card">
+  <p-messages
+    [(value)]="messages"
+    [enableService]="false"
+    [closable]="false"
+  ></p-messages>
+</div>
 <p-table
   [scrollable]="true"
   scrollHeight="20rem"
@@ -95,13 +102,17 @@
         class="p-button-success mr-2"
         pTooltip="XLS"
         tooltipPosition="bottom"
-      ></button>
-      <p-button
         styleClass="p-button-sm"
+      ></button>
+      <button
+        pButton
+        class="p-button mr-2"
         label="Create new data"
         icon="pi pi-file-edit"
         (click)="show()"
-      ></p-button>
+        pTooltip="Create data"
+        tooltipPosition="bottom"
+      ></button>
     </div>
   </ng-template>
   <ng-template pTemplate="header">

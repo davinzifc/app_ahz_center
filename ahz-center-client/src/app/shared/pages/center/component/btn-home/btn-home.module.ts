@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 import { TagModule } from 'primeng/tag';
 import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [BtnHomeComponent],
@@ -16,6 +17,7 @@ import { RouterModule } from '@angular/router';
     CardModule,
     AvatarModule,
     TagModule,
+    ButtonModule,
   ],
   exports: [BtnHomeComponent],
 })

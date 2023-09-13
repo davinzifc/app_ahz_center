@@ -5,6 +5,7 @@ import { ColumnsUtils } from '../../../../../../../utils/format-columns.utils';
 import {
   ConfirmEventType,
   ConfirmationService,
+  Message,
   MessageService,
 } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -29,6 +30,13 @@ export class AssignReportsToUserComponent implements OnInit {
   public columnReport!: { attr: string[]; title: string[] };
   public ref!: DynamicDialogRef;
   public modalOpened: boolean = false;
+  public messages: Message[] = [
+    {
+      severity: 'info',
+      summary: 'Info',
+      detail: 'For each table, click on the row you want to interact with.',
+    },
+  ];
 
   constructor(
     private _connectionsService: ConnectionsService,

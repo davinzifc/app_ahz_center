@@ -1,0 +1,30 @@
+<div class="coming-soon">
+  <div class="coming-soon__content">
+    <h1 class="coming-soon__title">{{ title }} {{ coming_soon }}</h1>
+    <p class="coming-soon__description">
+      We're working hard to bring you something awesome. Stay tuned!
+    </p>
+    <div class="coming-soon__countdown">
+      <div class="coming-soon__countdown-item">
+        <span class="coming-soon__countdown-value">{{ countdown.days }}</span>
+        <span class="coming-soon__countdown-label">Days</span>
+      </div>
+      <div class="coming-soon__countdown-item">
+        <span class="coming-soon__countdown-value">{{ countdown.hours }}</span>
+        <span class="coming-soon__countdown-label">Hours</span>
+      </div>
+      <div class="coming-soon__countdown-item">
+        <span class="coming-soon__countdown-value">{{
+          countdown.minutes
+        }}</span>
+        <span class="coming-soon__countdown-label">Minutes</span>
+      </div>
+      <div class="coming-soon__countdown-item">
+        <span class="coming-soon__countdown-value">{{
+          countdown.seconds
+        }}</span>
+        <span class="coming-soon__countdown-label">Seconds</span>
+      </div>
+    </div>
+  </div>
+</div>
