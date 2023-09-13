@@ -6,8 +6,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { MessagesModule } from 'primeng/messages';
 import { BadgeModule } from 'primeng/badge';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
@@ -32,18 +30,13 @@ import { ManagementReportsComponent } from './management-reports.component';
     InputTextModule,
     InputNumberModule,
     TagModule,
-    DynamicDialogModule,
-    MessagesModule,
     BadgeModule,
     ToastModule,
-    MessagesModule,
     DropdownModule,
     ConfirmPopupModule,
     ConfirmDialogModule,
     DividerModule,
     FormsModule,
-    CalendarModule,
-    PasswordModule,
     ProgressSpinnerModule,
     TabMenuModule,
   ],

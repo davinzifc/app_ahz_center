@@ -5,10 +5,12 @@
       <div
         class="pic-profile w-full mb-3 flex justify-content-center align-items-center"
       >
-        <span>DF</span>
+        <span>{{ shortName }}</span>
       </div>
       <p-tag
-        [value]="user.user_by_role ? user.user_by_role[0].role.role_name : ''"
+        [value]="
+          user.user_by_role ? user.user_by_role[0].role.role_name : 'N/A'
+        "
         [style]="{ width: '100%' }"
       ></p-tag>
     </div>
@@ -74,7 +76,8 @@
           <span class="p-inputgroup-addon">{{ age }}</span>
         </div>
       </div>
-
+    </div>
+    <div class="cppd-item-02">
       <div class="flex flex-column gap-2 mb-2">
         <label class="font-bold block"> Gender </label>
         <div class="p-inputgroup">
@@ -87,8 +90,6 @@
           />
         </div>
       </div>
-    </div>
-    <div class="cppd-item-02">
       <div class="flex flex-column gap-2 mb-2">
         <label class="font-bold block"> Mobile number </label>
         <div class="p-inputgroup">
@@ -110,36 +111,16 @@
       </div>
 
       <div class="flex flex-column gap-2 mb-2">
-        <label class="font-bold block"> Integer </label>
+        <label class="font-bold block disable-text"> Blood type </label>
         <div class="p-inputgroup">
-          <input type="text" pInputText placeholder="Keyword" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Blood type"
+            disabled="true"
+          />
           <button
-            type="button"
-            pButton
-            icon="pi pi-pencil"
-            styleClass="p-button-warn"
-          ></button>
-        </div>
-      </div>
-
-      <div class="flex flex-column gap-2 mb-2">
-        <label class="font-bold block"> Integer </label>
-        <div class="p-inputgroup">
-          <input type="text" pInputText placeholder="Keyword" />
-          <button
-            type="button"
-            pButton
-            icon="pi pi-pencil"
-            styleClass="p-button-warn"
-          ></button>
-        </div>
-      </div>
-
-      <div class="flex flex-column gap-2 mb-2">
-        <label class="font-bold block"> Integer </label>
-        <div class="p-inputgroup">
-          <input type="text" pInputText placeholder="Keyword" />
-          <button
+            disabled="true"
             type="button"
             pButton
             icon="pi pi-pencil"
@@ -150,5 +131,9 @@
     </div>
   </div>
 </div>
-<div class="c-profile">s</div>
-<div class="c-profile">s</div>
+<div class="c-profile">
+  <app-coming-soon title="Total tests by day "></app-coming-soon>
+</div>
+<div class="c-profile">
+  <app-coming-soon title="Last test performed"></app-coming-soon>
+</div>

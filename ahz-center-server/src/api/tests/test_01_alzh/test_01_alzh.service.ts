@@ -16,6 +16,7 @@ export class Test01AlzhService {
 
   async create(createTest01AlzhDto: CreateTest01AlzhDto, user: UserToken) {
     try {
+      console.log(createTest01AlzhDto);
       const validData = GeneralFunctionsUtil.validAttributes(
         createTest01AlzhDto,
         CreateTest01AlzhDto,
@@ -33,7 +34,16 @@ export class Test01AlzhService {
         ...createTest01AlzhDto,
         created_by: user.user_id,
       });
-    } catch (error) {}
+      return this._responseHandler.dataReturn({
+        data: {
+          message: 'Test01Alzh created successfully',
+          response: res,
+          status: HttpStatus.CREATED,
+        },
+      });
+    } catch (error) {
+      return this._responseHandler.errorReturn({ data: error, debug: true });
+    }
   }
 
   async linkDataByUserId(user_id: number, data_id: number, user: UserToken) {

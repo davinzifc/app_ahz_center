@@ -1,9 +1,16 @@
+<div class="card">
+  <p-messages
+    [(value)]="messages"
+    [enableService]="false"
+    [closable]="false"
+  ></p-messages>
+</div>
 <p-table
   #Process
   [value]="processList"
   selectionMode="single"
   [(selection)]="selectProcess"
-  dataKey="ID"
+  dataKey="process_type_id"
   [tableStyle]="{ 'min-width': '50rem' }"
   [scrollable]="true"
 >

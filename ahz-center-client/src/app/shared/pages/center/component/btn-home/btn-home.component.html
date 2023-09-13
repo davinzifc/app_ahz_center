@@ -1,7 +1,6 @@
 <p-card
   [routerLink]="item_menu.link"
   id="btn-home-avatar"
-  pRipple
   styleClass="m-2 flex justify-content-center flex-wrap card card-container"
   [style]="{
     cursor: 'pointer',
@@ -13,6 +12,21 @@
     'focus-item': !item_menu.focus
   }"
 >
+  <p-button
+    class="logout-button"
+    styleClass="p-button-rounded p-button-text p-button-raised logout-button"
+    icon="pi pi-power-off"
+    iconPos="right"
+    [style]="{
+      'background-color': item_menu.focus ? '#FFFFFF' : '#3B82F6',
+      color: item_menu.focus ? '#3B82F6' : '#ffffff',
+    }"
+    [ngClass]="{
+      'un-focus-item': item_menu.focus,
+      'focus-item': !item_menu.focus
+    }"
+    (click)="logOut()"
+  ></p-button>
   <p-avatar
     pFocusTrap
     [label]="av_name"

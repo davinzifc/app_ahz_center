@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [MyReportsComponent],
@@ -19,6 +20,7 @@ import { ChartModule } from 'primeng/chart';
     DividerModule,
     ButtonModule,
     ChartModule,
+    MessagesModule,
   ],
 })
 export class MyReportsModule {}

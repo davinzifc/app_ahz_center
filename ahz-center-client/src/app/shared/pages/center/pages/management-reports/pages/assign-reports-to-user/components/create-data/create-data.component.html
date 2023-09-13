@@ -1,0 +1,29 @@
+<div>
+  <div
+    *ngFor="
+      let data of this._createDataService.process_meta_data[
+        this._createDataService.process_id
+      ]
+    "
+  >
+    <div class="flex flex-column gap-2 mb-2">
+      <label class="font-bold block"> {{ data.title }} </label>
+      <div class="p-inputgroup">
+        <input
+          type="{{ data.type }}"
+          pInputText
+          [readonly]="checkType(data.attr)"
+          [(ngModel)]="this.dataSave[data.attr]"
+          placeholder="{{ data.title }}"
+        />
+      </div>
+    </div>
+  </div>
+  <p-divider></p-divider>
+  <p-button
+    label="Discart"
+    styleClass="p-button-warning  mr-2"
+    (click)="saveData(true)"
+  ></p-button>
+  <p-button label="Create" (click)="saveData(false)"></p-button>
+</div>

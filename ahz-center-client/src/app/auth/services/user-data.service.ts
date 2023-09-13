@@ -7,6 +7,7 @@ import { ResponseInterface } from '../../shared/interfaces/response.interface';
 import { OkUserResponse } from '../interface/ok-user-response.interface';
 import { tap } from 'rxjs';
 import { lastValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,10 @@ export class UserDataService {
     roleId: null,
   };
 
-  constructor(private _connectionsService: ConnectionsService) {}
+  constructor(
+    private _connectionsService: ConnectionsService,
+    private router: Router
+  ) {}
 
   public activeUser() {
     let validation = false;
@@ -85,10 +89,12 @@ export class UserDataService {
 
   public singOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.controller = {
       token: '',
       user: new User(),
       roleId: null,
     };
+    this.router.navigate(['/login']);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/auth/interface/user.dto';
 import { MenuInterface } from 'src/app/shared/interfaces/menu.interface';
+import { UserDataService } from '../../../../../auth/services/user-data.service';
 
 @Component({
   selector: 'app-btn-home',
@@ -18,7 +19,9 @@ export class BtnHomeComponent implements OnInit {
     focus: false,
   };
 
-  constructor() {}
-
+  constructor(private _userDataService: UserDataService) {}
+  logOut() {
+    this._userDataService.singOut();
+  }
   ngOnInit() {}
 }

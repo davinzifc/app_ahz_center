@@ -5,6 +5,7 @@ import { CardModule } from 'primeng/card';
 import { RouterModule } from '@angular/router';
 import { BtnHomeModule } from '../btn-home/btn-home.module';
 import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [ContentMenuComponent],
@@ -14,6 +15,7 @@ import { RippleModule } from 'primeng/ripple';
     RouterModule,
     BtnHomeModule,
     RippleModule,
+    ButtonModule,
   ],
   exports: [ContentMenuComponent],
 })

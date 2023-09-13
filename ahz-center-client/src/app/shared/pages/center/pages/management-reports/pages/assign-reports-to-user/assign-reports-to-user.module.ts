@@ -7,7 +7,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MessagesModule } from 'primeng/messages';
 import { BadgeModule } from 'primeng/badge';
 import { ToastModule } from 'primeng/toast';
@@ -21,6 +21,7 @@ import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabMenuModule } from 'primeng/tabmenu';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AssignReportsToUserComponent],
@@ -36,7 +37,6 @@ import { TabMenuModule } from 'primeng/tabmenu';
     MessagesModule,
     BadgeModule,
     ToastModule,
-    MessagesModule,
     DropdownModule,
     ConfirmPopupModule,
     ConfirmDialogModule,
@@ -47,5 +47,6 @@ import { TabMenuModule } from 'primeng/tabmenu';
     ProgressSpinnerModule,
     TabMenuModule,
   ],
+  providers: [DialogService, MessageService],
 })
 export class AssignReportsToUserModule {}

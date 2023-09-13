@@ -14,6 +14,8 @@ import { CreateMentAlzhDto } from './dto/create-ment-alzh.dto';
 import { UpdateMentAlzhDto } from './dto/update-ment-alzh.dto';
 import { ErrorHandler } from '../../shared/handlers/error.handler';
 import { ResponseInterceptor } from '../../shared/interceptors/response.interseptor';
+import { UserToken } from '../../shared/globaldto/user-token.dto';
+import { UserJWT } from '../../shared/decorators/user-token.decorator';
 
 @Controller()
 @UseFilters(new ErrorHandler())
@@ -22,8 +24,11 @@ export class MentAlzhController {
   constructor(private readonly mentAlzhService: MentAlzhService) {}
 
   @Post()
-  create(@Body() createMentAlzhDto: CreateMentAlzhDto) {
-    return this.mentAlzhService.create(createMentAlzhDto);
+  create(
+    @Body() createMentAlzhDto: CreateMentAlzhDto,
+    @UserJWT() userToken: UserToken,
+  ) {
+    return this.mentAlzhService.create(createMentAlzhDto, userToken);
   }
 
   @Get()

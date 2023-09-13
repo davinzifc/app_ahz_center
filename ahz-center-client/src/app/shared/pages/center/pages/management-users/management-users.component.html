@@ -1,6 +1,8 @@
 <p-toast *ngIf="!modalOpened" position="bottom-right"></p-toast>
 <p-table
   #dt2
+  [scrollable]="true"
+  scrollHeight="40rem"
   [value]="_managementUserService.userManagementList"
   selectionMode="single"
   [(selection)]="selectedUser"

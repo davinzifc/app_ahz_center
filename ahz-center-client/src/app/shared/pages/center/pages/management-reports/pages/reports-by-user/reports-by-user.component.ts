@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConnectionsService } from '../../../../../../../api/connections.service';
 import { UserDataService } from '../../../../../../../auth/services/user-data.service';
 import { ColumnsUtils } from '../../../../../../../utils/format-columns.utils';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-reports-by-user',
@@ -16,6 +17,13 @@ export class ReportsByUserComponent implements OnInit {
   public reportList: any[] = [];
   public selectSubProcess!: any;
   public columnReport!: { attr: string[]; title: string[] };
+  public messages: Message[] = [
+    {
+      severity: 'info',
+      summary: 'Info',
+      detail: 'For each table, click on the row you want to interact with.',
+    },
+  ];
 
   constructor(
     private _connectionsService: ConnectionsService,

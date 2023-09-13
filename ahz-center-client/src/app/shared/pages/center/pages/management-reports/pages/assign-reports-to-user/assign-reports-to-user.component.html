@@ -1,5 +1,14 @@
 <p-toast position="bottom-right"></p-toast>
+<div class="card">
+  <p-messages
+    [(value)]="messages"
+    [enableService]="false"
+    [closable]="false"
+  ></p-messages>
+</div>
 <p-table
+  [scrollable]="true"
+  scrollHeight="20rem"
   [value]="patientsList"
   selectionMode="single"
   [(selection)]="selectedPatient"
@@ -30,6 +39,8 @@
 </p-table>
 <p-divider *ngIf="selectedPatient"></p-divider>
 <p-table
+  [scrollable]="true"
+  scrollHeight="15rem"
   [value]="processList"
   selectionMode="single"
   [(selection)]="selectedProcess"
@@ -68,6 +79,8 @@
 </p-table>
 <p-divider></p-divider>
 <p-table
+  [scrollable]="true"
+  scrollHeight="25rem"
   #Reports
   *ngIf="!!selectedProcess && is_in_process"
   selectionMode="single"
@@ -80,6 +93,7 @@
   <ng-template pTemplate="caption">
     <div class="flex">
       <button
+        *ngIf="reportList.length"
         type="button"
         pButton
         pRipple
@@ -87,6 +101,16 @@
         (click)="exportXlsx()"
         class="p-button-success mr-2"
         pTooltip="XLS"
+        tooltipPosition="bottom"
+        styleClass="p-button-sm"
+      ></button>
+      <button
+        pButton
+        class="p-button mr-2"
+        label="Create new data"
+        icon="pi pi-file-edit"
+        (click)="show()"
+        pTooltip="Create data"
         tooltipPosition="bottom"
       ></button>
     </div>
