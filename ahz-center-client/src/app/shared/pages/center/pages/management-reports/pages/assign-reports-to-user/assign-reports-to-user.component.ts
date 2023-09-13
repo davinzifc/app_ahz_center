@@ -9,6 +9,9 @@ import {
 } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LinkDataService } from '../../../../../../../utils/util-service/link-data.service';
+import { CreateUserModalComponent } from '../../../management-users/create-user-modal/create-user-modal.component';
+import { CreateDataComponent } from './components/create-data/create-data.component';
+import { CreateDataService } from './services/create-data.service';
 
 @Component({
   selector: 'app-assign-reports-to-user',
@@ -24,16 +27,45 @@ export class AssignReportsToUserComponent implements OnInit {
   public selectSubProcess!: any;
   public is_in_process!: boolean | null;
   public columnReport!: { attr: string[]; title: string[] };
+  public ref!: DynamicDialogRef;
+  public modalOpened: boolean = false;
 
   constructor(
     private _connectionsService: ConnectionsService,
     public _userDataService: UserDataService,
+    public dialogService: DialogService,
     public messageService: MessageService,
-    private _linkDataService: LinkDataService
+    private _linkDataService: LinkDataService,
+    private _createDataService: CreateDataService
   ) {}
 
   ngOnInit(): void {
     this.getPatients();
+  }
+
+  show() {
+    this.modalOpened = true;
+    this._createDataService.setData(
+      this.selectedPatient,
+      this.selectedProcess.process_type_id
+    );
+    this.ref = this.dialogService.open(CreateDataComponent, {
+      header: `Data will be created in the patient: [${this.selectedPatient.user_id}] ${this.selectedPatient.first_name} ${this.selectedPatient.last_name}`,
+      width: '40%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: false,
+    });
+
+    this.ref.onClose.subscribe((res) => {
+      this._createDataService.cleanData();
+      this.modalOpened = false;
+      if (res) {
+        setTimeout(() => {
+          this.messageService.add(res);
+        }, 100);
+      }
+    });
   }
 
   getProcess() {

@@ -170,4 +170,22 @@ export class ConnectionsService {
       this.options
     );
   }
+
+  POST_createMent_alzh(body: any) {
+    this.updateOptions();
+    return this.http.post(
+      `${environments.api_url}api/ment-alzh`,
+      body,
+      this.options
+    );
+  }
+
+  POST_createTest_01(body: any) {
+    this.updateOptions();
+    return this.http.post(
+      `${environments.api_url}api/test-01-alzh`,
+      body,
+      this.options
+    );
+  }
 }

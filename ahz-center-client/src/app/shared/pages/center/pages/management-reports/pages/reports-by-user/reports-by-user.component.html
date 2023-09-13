@@ -1,4 +1,6 @@
 <p-table
+  [scrollable]="true"
+  scrollHeight="20rem"
   [value]="patientsList"
   selectionMode="single"
   [(selection)]="selectedPatient"
@@ -28,13 +30,24 @@
   </ng-template>
 </p-table>
 <p-divider *ngIf="selectedPatient"></p-divider>
+<div class="content-no-link" *ngIf="selectedPatient && !processList.length">
+  <h2>This user is currently not in this process</h2>
+  <p>
+    To start a process with this user you must link
+    <i class="link-btn pi pi-link"></i> it in the
+    <strong>"Assing reports to a user"</strong>
+    section
+  </p>
+</div>
 <p-table
+  [scrollable]="true"
+  scrollHeight="15rem"
   [value]="processList"
   selectionMode="single"
   [(selection)]="selectedProcess"
   dataKey="process_type_user_id"
   [tableStyle]="{ 'min-width': '50rem' }"
-  *ngIf="selectedPatient"
+  *ngIf="selectedPatient && processList.length"
 >
   <ng-template pTemplate="header">
     <tr>
@@ -52,14 +65,18 @@
   </ng-template>
 </p-table>
 <p-divider *ngIf="!!selectedProcess"></p-divider>
+<div class="content-no-link" *ngIf="selectedProcess && !reportList.length">
+  <h2>There is no test</h2>
+  <p>No tests have been registered for the user so far</p>
+</div>
 <p-table
   #Reports
-  *ngIf="!!selectedProcess"
+  *ngIf="!!selectedProcess && !!reportList.length"
   selectionMode="single"
   [value]="reportList"
   [tableStyle]="{ 'min-width': '50rem' }"
   [scrollable]="true"
-  scrollHeight="400px"
+  scrollHeight="25rem"
   [(selection)]="selectSubProcess"
 >
   <ng-template pTemplate="caption">

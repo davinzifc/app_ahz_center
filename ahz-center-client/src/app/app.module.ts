@@ -9,10 +9,12 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ResponseInterceptor } from './shared/interceptor/response-interceptor.interceptor';
 import { OnlyOneSaveInputComponent } from './shared/alhz-custom-components/only-one-save-input/only-one-save-input.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, OnlyOneSaveInputComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
